@@ -1,0 +1,21 @@
+func main(): int {
+    message: string = "Naya Coreutils\n"
+    syscall.write(1, message, 14)
+    
+    message = "Available commands:\n"
+    syscall.write(1, message, 20)
+    
+    message = "  hello  - Say hello\n"
+    syscall.write(1, message, 21)
+    
+    message = "  echo   - Echo a message\n"
+    syscall.write(1, message, 24)
+    
+    message = "  cat    - Basic cat utility\n"
+    syscall.write(1, message, 26)
+    
+    message = "  test   - Test functionality\n"
+    syscall.write(1, message, 27)
+    
+    return 0
+}

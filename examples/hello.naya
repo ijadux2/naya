@@ -1,0 +1,7 @@
+import sys
+
+func main(): int {
+    message: string = "Hello, World!\n"
+    syscall.write(1, message, 13)
+    return 0
+}

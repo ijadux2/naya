@@ -1,0 +1,20 @@
+import sys
+
+func main(): int {
+    if len(sys.args) < 2 {
+        sys.write_error("Usage: echo <message>\n")
+        return 1
+    }
+    
+    i: int = 1
+    while i < len(sys.args) {
+        syscall.write(1, sys.args[i], len(sys.args[i]))
+        if i < len(sys.args) - 1 {
+            syscall.write(1, " ", 1)
+        }
+        i = i + 1
+    }
+    
+    syscall.write(1, "\n", 1)
+    return 0
+}

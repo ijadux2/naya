@@ -1,0 +1,13 @@
+import sys
+
+func main(): int {
+    buffer: uint8
+    while true {
+        bytes_read: uint = syscall.read(0, buffer, 1)
+        if bytes_read == 0 {
+            break
+        }
+        syscall.write(1, buffer, 1)
+    }
+    return 0
+}

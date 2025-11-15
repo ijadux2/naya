@@ -1,0 +1,5 @@
+func main(): int {
+    message: string = "Hello from echo!\n"
+    syscall.write(1, message, 17)
+    return 0
+}

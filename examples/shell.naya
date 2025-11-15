@@ -1,0 +1,12 @@
+func main(): int {
+    prompt: string = "naya> "
+    syscall.write(1, prompt, 6)
+    
+    buffer: uint8
+    syscall.read(0, buffer, 1)
+    
+    message: string = "Goodbye!\n"
+    syscall.write(1, message, 9)
+    
+    return 0
+}

@@ -1,0 +1,24 @@
+import sys
+import io
+
+func main(): int {
+    path: string = "."
+    if len(sys.args) > 1 {
+        path = sys.args[1]
+    }
+    
+    dir: io.Directory = io.open_dir(path)
+    if !dir.is_valid() {
+        sys.write_error("Cannot open directory\n")
+        return 1
+    }
+    
+    entry: io.DirEntry
+    while dir.read_next(entry) {
+        syscall.write(1, entry.name, len(entry.name))
+        syscall.write(1, "\n", 1)
+    }
+    
+    dir.close()
+    return 0
+}
