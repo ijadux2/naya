@@ -1,0 +1,307 @@
+<!-- Documentation Section -->
+<div class="container">
+    <div class="section-header">
+        <h1>Documentation</h1>
+        <p class="section-subtitle">Complete language reference and guides</p>
+    </div>
+
+    <div class="doc-navigation">
+        <div class="doc-sidebar">
+            <div class="doc-section">
+                <h3>Getting Started</h3>
+                <ul>
+                    <li><a href="#quickstart" class="doc-link active">Quick Start</a></li>
+                    <li><a href="#installation" class="doc-link">Installation</a></li>
+                    <li><a href="#first-program" class="doc-link">First Program</a></li>
+                    <li><a href="#build-system" class="doc-link">Build System</a></li>
+                </ul>
+            </div>
+            
+            <div class="doc-section">
+                <h3>Language Reference</h3>
+                <ul>
+                    <li><a href="#types" class="doc-link">Type System</a></li>
+                    <li><a href="#functions" class="doc-link">Functions</a></li>
+                    <li><a href="#control-flow" class="doc-link">Control Flow</a></li>
+                    <li><a href="#memory" class="doc-link">Memory Management</a></li>
+                    <li><a href="#error-handling" class="doc-link">Error Handling</a></li>
+                    <li><a href="#generics" class="doc-link">Generics</a></li>
+                    <li><a href="#comptime" class="doc-link">Compile-Time</a></li>
+                </ul>
+            </div>
+            
+            <div class="doc-section">
+                <h3>Standard Library</h3>
+                <ul>
+                    <li><a href="#io" class="doc-link">I/O Operations</a></li>
+                    <li><a href="#collections" class="doc-link">Collections</a></li>
+                    <li><a href="#system" class="doc-link">System Calls</a></li>
+                    <li><a href="#concurrency" class="doc-link">Concurrency</a></li>
+                    <li><a href="#math" class="doc-link">Math Functions</a></li>
+                </ul>
+            </div>
+            
+            <div class="doc-section">
+                <h3>Integration</h3>
+                <ul>
+                    <li><a href="#c-abi" class="doc-link">C ABI</a></li>
+                    <li><a href="#raylib" class="doc-link">Raylib</a></li>
+                    <li><a href="#sokol" class="doc-link">Sokol</a></li>
+                    <li><a href="#neovim" class="doc-link">Neovim</a></li>
+                    <li><a href="#lsp" class="doc-link">LSP Server</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="doc-content">
+            <div class="doc-section-content" id="quickstart">
+                <h2>Quick Start</h2>
+                <div class="doc-card">
+                    <h3>Installation</h3>
+                    <p>Get Naya up and running in minutes:</p>
+                    <div class="code-block">
+                        <div class="copy-btn" data-code="git clone https://github.com/username/naya.git && cd naya && ./install.sh" onclick="copyToClipboard(this)">
+                            <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 4H7c-.6 0-1 .4-1 1v10c0 .6.4 1 1 1h8c.6 0 1-.4 1-1V6c0-.6-.4-1-1-1z"/>
+                            </svg>
+                            Copy
+                        </div>
+                        <pre><code class="language-bash">git clone https://github.com/username/naya.git && cd naya && ./install.sh</code></pre>
+                    </div>
+                </div>
+
+                <div class="doc-card">
+                    <h3>Your First Program</h3>
+                    <p>Create a simple Naya program:</p>
+                    <div class="code-block">
+                        <div class="copy-btn" data-code="func main(): int {
+    print(\"Hello, Naya!\")
+    return 0
+}" onclick="copyToClipboard(this)">
+                            <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 4H7c-.6 0-1 .4-1 1v10c0 .6.4 1 1 1h8c.6 0 1-.4 1-1V6c0-.6-.4-1-1-1z"/>
+                            </svg>
+                            Copy
+                        </div>
+                        <pre><code class="language-naya">func main(): int {
+    print("Hello, Naya!")
+    return 0
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="doc-card">
+                    <h3>Compile and Run</h3>
+                    <p>Compile and execute your program:</p>
+                    <div class="code-block">
+                        <div class="copy-btn" data-code="naya hello.naya hello && ./hello" onclick="copyToClipboard(this)">
+                            <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 4H7c-.6 0-1 .4-1 1v10c0 .6.4 1 1 1h8c.6 0 1-.4 1-1V6c0-.6-.4-1-1-1z"/>
+                            </svg>
+                            Copy
+                        </div>
+                        <pre><code class="language-bash">naya hello.naya hello && ./hello</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-section-content" id="types">
+                <h2>Type System</h2>
+                <div class="doc-card">
+                    <h3>Basic Types</h3>
+                    <div class="type-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>C Equivalent</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>int</code></td>
+                                    <td>64-bit signed integer</td>
+                                    <td><code>long</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>uint</code></td>
+                                    <td>64-bit unsigned integer</td>
+                                    <td><code>unsigned long</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>float64</code></td>
+                                    <td>64-bit floating point</td>
+                                    <td><code>double</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>string</code></td>
+                                    <td>Null-terminated string</td>
+                                    <td><code>char*</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>bool</code></td>
+                                    <td>Boolean value</td>
+                                    <td><code>int</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="doc-card">
+                    <h3>Advanced Types</h3>
+                    <div class="type-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>ptr[T]</code></td>
+                                    <td>Safe pointer with bounds checking</td>
+                                </tr>
+                                <tr>
+                                    <td><code>uptr[T]</code></td>
+                                    <td>Unsafe pointer (no bounds checking)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>[N]T</code></td>
+                                    <td>Fixed-size array on stack</td>
+                                </tr>
+                                <tr>
+                                    <td><code>[]T</code></td>
+                                    <td>Slice (pointer + length)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>Result[T, E]</code></td>
+                                    <td>Result type for error handling</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-section-content" id="functions">
+                <h2>Functions</h2>
+                <div class="doc-card">
+                    <h3>Function Declaration</h3>
+                    <div class="code-block">
+                        <pre><code class="language-naya">func function_name(param1: type1, param2: type2): return_type {
+    // function body
+    return value
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="doc-card">
+                    <h3>Generic Functions</h3>
+                    <div class="code-block">
+                        <pre><code class="language-naya">func max(T: type)(a: T, b: T): T {
+    if a > b {
+        return a
+    }
+    return b
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="doc-card">
+                    <h3>Methods</h3>
+                    <div class="code-block">
+                        <pre><code class="language-naya">Vector: type = struct(T: type) {
+    x: T
+    y: T
+    
+    func magnitude(self: Vector(T)): float64 {
+        return sqrt(self.x * self.x + self.y * self.y)
+    }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-section-content" id="memory">
+                <h2>Memory Management</h2>
+                <div class="doc-card">
+                    <h3>Stack Allocation</h3>
+                    <div class="code-block">
+                        <pre><code class="language-naya">func main(): int {
+    buffer: [1024]uint8  // Stack allocated
+    // Use buffer...
+    return 0
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="doc-card">
+                    <h3>Heap Allocation</h3>
+                    <div class="code-block">
+                        <pre><code class="language-naya">func main(): int {
+    data: []int = alloc([]int, 100)  // Heap allocated
+    defer free(data.ptr)  // Automatic cleanup
+    
+    // Use data...
+    return 0
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="doc-card">
+                    <h3>Arena Allocation</h3>
+                    <div class="code-block">
+                        <pre><code class="language-naya">func main(): int {
+    arena: Arena = {}
+    defer arena.deinit()
+    
+    temp_data: []string = arena.alloc([]string, 50)
+    // Use temp_data...
+    
+    return 0
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-section-content" id="error-handling">
+                <h2>Error Handling</h2>
+                <div class="doc-card">
+                    <h3>Result Types</h3>
+                    <div class="code-block">
+                        <pre><code class="language-naya">func safe_divide(a: int, b: int): Result[int, string] {
+    if b == 0 {
+        return Err("Division by zero")
+    }
+    return Ok(a / b)
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="doc-card">
+                    <h3>Try-Catch</h3>
+                    <div class="code-block">
+                        <pre><code class="language-naya">func main(): int {
+    result: int = try safe_divide(10, 2) or return 1
+    print("Result: {result}")
+    return 0
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="doc-card">
+                    <h3>Pattern Matching</h3>
+                    <div class="code-block">
+                        <pre><code class="language-naya">match result {
+    Ok(value) => print("Success: {value}"),
+    Err(error) => print("Error: {error}")
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

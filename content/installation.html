@@ -1,0 +1,368 @@
+<!-- Installation Section -->
+<div class="container">
+    <div class="section-header">
+        <h1>Installation</h1>
+        <p class="section-subtitle">Get Naya up and running on your system in minutes</p>
+    </div>
+
+    <div class="installation-tabs">
+        <div class="tabs">
+            <button class="tab active" data-tab="quick">Quick Start</button>
+            <button class="tab" data-tab="linux">Linux</button>
+            <button class="tab" data-tab="macos">macOS</button>
+            <button class="tab" data-tab="windows">Windows</button>
+            <button class="tab" data-tab="manual">Manual</button>
+        </div>
+
+        <div class="tab-content active" data-content="quick">
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M13 2.05v2.02c3.95.49 7 3.85 7 7.93v2c0 1.08-3.05 7.44-7 7.93v2.02l5-5-5z"/>
+                    </svg>
+                    <h3>Automatic Installation (Recommended)</h3>
+                </div>
+                <div class="card-description">
+                    <p>The easiest way to install Naya with all dependencies and Neovim integration.</p>
+                    
+                    <div class="installation-steps">
+                        <div class="step">
+                            <div class="step-title">Clone the repository</div>
+                            <div class="step-description">
+                                <div class="step-code">git clone https://github.com/username/naya.git</div>
+                                <div class="step-description">Download the Naya source code</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-title">Run the installer</div>
+                            <div class="step-description">
+                                <div class="step-code">./install.sh</div>
+                                <div class="step-description">Linux/macOS: Use the shell script</div>
+                                <div class="step-code">.\install.ps1</div>
+                                <div class="step-description">Windows PowerShell: Use the PowerShell script</div>
+                                <div class="step-code">install.bat</div>
+                                <div class="step-description">Windows CMD: Use the batch script</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-title">Verify installation</div>
+                            <div class="step-description">
+                                <div class="step-code">naya --version</div>
+                                <div class="step-description">Check that Naya is properly installed</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <h4>Installation Options</h4>
+                        <ul>
+                            <li><code>--dev</code> - Development mode (symlinks instead of copying)</li>
+                            <li><code>--skip-neovim</code> - Skip Neovim configuration</li>
+                            <li><code>--skip-deps</code> - Skip dependency installation</li>
+                            <li><code>--help</code> - Show help message</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" data-content="linux">
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    <h3>Linux Installation</h3>
+                </div>
+                <div class="card-description">
+                    <div class="installation-steps">
+                        <div class="step">
+                            <div class="step-title">Install Dependencies</div>
+                            <div class="step-description">
+                                <div class="step-code">sudo apt-get update && sudo apt-get install python3 python3-pip gcc build-essential git curl</div>
+                                <div class="step-description">Ubuntu/Debian</div>
+                                <div class="step-code">sudo dnf install python3 python3-pip gcc gcc-c++ make git curl</div>
+                                <div class="step-description">Fedora</div>
+                                <div class="step-code">sudo pacman -S python python-pip gcc make git curl</div>
+                                <div class="step-description">Arch Linux</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-title">Install Naya</div>
+                            <div class="step-description">
+                                <div class="step-code">./install.sh</div>
+                                <div class="step-description">Run the automatic installer</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" data-content="macos">
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 3.04l-2.81-2.81c-.8.52-1.64.9-2.5 1.08-1.16.19-2.23.19-3.31 0-1.08-.19-2.15-.19-3.31 0-.86.56-1.68 1.08-2.5l2.81-2.81c1.34-.59 2.22-1.8 3.04-3.04.59-1.24.59-2.71 0-3.95l-2.81-2.81c-.8-.52-1.64-.9-2.5-1.08-1.16-.19-2.23-.19-3.31 0-.86.56-1.68 1.08-2.5l2.81-2.81c1.34-.59 2.22-1.8 3.04-3.04.59-1.24.59-2.71 0-3.95z"/>
+                    </svg>
+                    <h3>macOS Installation</h3>
+                </div>
+                <div class="card-description">
+                    <div class="installation-steps">
+                        <div class="step">
+                            <div class="step-title">Install Dependencies</div>
+                            <div class="step-description">
+                                <div class="step-code">brew install python3 gcc make git curl</div>
+                                <div class="step-description">Using Homebrew</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-title">Install Naya</div>
+                            <div class="step-description">
+                                <div class="step-code">./install.sh</div>
+                                <div class="step-description">Run the automatic installer</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" data-content="windows">
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 12v4c0 1.1.9 2 2h14c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2H5c-1.1 0-2 .9-2 2z"/>
+                        <path d="M3 8v4c0 1.1.9 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2z"/>
+                        <path d="M3 4v4c0 1.1.9 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2z"/>
+                    </svg>
+                    <h3>Windows Installation</h3>
+                </div>
+                <div class="card-description">
+                    <div class="installation-steps">
+                        <div class="step">
+                            <div class="step-title">Option 1: PowerShell (Recommended)</div>
+                            <div class="step-description">
+                                <div class="step-code">.\install.ps1</div>
+                                <div class="step-description">Modern PowerShell with proper error handling</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-title">Option 2: Command Prompt</div>
+                            <div class="step-description">
+                                <div class="step-code">install.bat</div>
+                                <div class="step-description">Traditional batch script</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-title">Install Dependencies Manually</div>
+                            <div class="step-description">
+                                <ul>
+                                    <li>Python 3.8+ from <a href="https://python.org">python.org</a></li>
+                                    <li>Git from <a href="https://git-scm.com">git-scm.com</a></li>
+                                    <li>MinGW-w64 from <a href="https://mingw-w64.org">mingw-w64.org</a></li>
+                                    <li>Or Visual Studio with C++ tools</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" data-content="manual">
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-2v3h-2v-3h-2v-2h2v-3h2v3h2v2z"/>
+                    </svg>
+                    <h3>Manual Installation</h3>
+                </div>
+                <div class="card-description">
+                    <p>For advanced users who want full control over the installation process.</p>
+                    
+                    <div class="installation-steps">
+                        <div class="step">
+                            <div class="step-title">1. Create Installation Directory</div>
+                            <div class="step-description">
+                                <div class="step-code">mkdir -p ~/.local/share/naya</div>
+                                <div class="step-description">Create the Naya installation directory</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-title">2. Copy Files</div>
+                            <div class="step-description">
+                                <div class="step-code">cp naya.py naya_build.py lsp_server.py *.md ~/.local/share/naya/</div>
+                                <div class="step-description">Copy core files</div>
+                                <div class="step-code">cp -r examples syntax snippets ftdetect ~/.local/share/naya/</div>
+                                <div class="step-description">Copy supporting files</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-title">3. Create Command Wrappers</div>
+                            <div class="step-description">
+                                <div class="step-code">cat > ~/.local/bin/naya << 'EOF'\n#!/bin/bash\nNAYA_DIR="$HOME/.local/share/naya"\npython3 "$NAYA_DIR/naya.py" "$@"\nEOF</div>
+                                <div class="step-description">Create command line wrappers</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-title">4. Update PATH</div>
+                            <div class="step-description">
+                                <div class="step-code">export PATH="$PATH:$HOME/.local/bin"</div>
+                                <div class="step-description">Add to your shell configuration</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Verification</h2>
+        <div class="grid grid-2">
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="var(--ctp-green)">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0"/>
+                    </svg>
+                    <h3>Test Commands</h3>
+                </div>
+                <div class="card-description">
+                    <div class="code-block">
+                        <div class="copy-btn" data-code="naya --version" onclick="copyToClipboard(this)">
+                            <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 4H7c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h8c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1z"/>
+                            </svg>
+                            Copy
+                        </div>
+                        <pre><code class="language-bash">naya --version</code></pre>
+                    </div>
+                    <p>Check Naya compiler version</p>
+                    
+                    <div class="code-block">
+                        <div class="copy-btn" data-code="naya-build --help" onclick="copyToClipboard(this)">
+                            <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 4H7c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h8c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1z"/>
+                            </svg>
+                            Copy
+                        </div>
+                        <pre><code class="language-bash">naya-build --help</code></pre>
+                    </div>
+                    <p>Check build system functionality</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="var(--ctp-blue)">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                        <path d="M14 2v6h6"/>
+                    </svg>
+                    <h3>Test Compilation</h3>
+                </div>
+                <div class="card-description">
+                    <div class="code-block">
+                        <div class="copy-btn" data-code="echo 'func main(): int { print(&quot;Hello, Naya!&quot;); return 0; }' > test.naya" onclick="copyToClipboard(this)">
+                            <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 4H7c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h8c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1z"/>
+                            </svg>
+                            Copy
+                        </div>
+                        <pre><code class="language-bash">echo 'func main(): int { print("Hello, Naya!"); return 0; }' > test.naya</code></pre>
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="copy-btn" data-code="naya test.naya test" onclick="copyToClipboard(this)">
+                            <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 4H7c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h8c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1z"/>
+                            </svg>
+                            Copy
+                        </div>
+                        <pre><code class="language-bash">naya test.naya test</code></pre>
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="copy-btn" data-code="./test" onclick="copyToClipboard(this)">
+                            <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 4H7c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h8c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1z"/>
+                            </svg>
+                            Copy
+                        </div>
+                        <pre><code class="language-bash">./test</code></pre>
+                    </div>
+                    <p>Compile and run a test program</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Troubleshooting</h2>
+        <div class="troubleshooting-grid">
+            <div class="troubleshooting-item">
+                <div class="troubleshooting-header">
+                    <svg class="troubleshooting-icon" viewBox="0 0 24 24" fill="var(--ctp-red)">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                    </svg>
+                    <h3>"Command not found" Error</h3>
+                </div>
+                <div class="troubleshooting-content">
+                    <p><strong>Cause:</strong> Naya binaries are not in your PATH</p>
+                    <p><strong>Solution:</strong></p>
+                    <ul>
+                        <li>Restart your terminal after installation</li>
+                        <li>Manually add to PATH: <code>export PATH="$PATH:$HOME/.local/bin"</code></li>
+                        <li>Check if installation completed successfully</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="troubleshooting-item">
+                <div class="troubleshooting-header">
+                    <svg class="troubleshooting-icon" viewBox="0 0 24 24" fill="var(--ctp-yellow)">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                    </svg>
+                    <h3>Python Not Found</h3>
+                </div>
+                <div class="troubleshooting-content">
+                    <p><strong>Cause:</strong> Python 3.8+ is not installed or not in PATH</p>
+                    <p><strong>Solution:</strong></p>
+                    <ul>
+                        <li>Install Python from <a href="https://python.org">python.org</a></li>
+                        <li>On Windows, make sure to check "Add Python to PATH"</li>
+                        <li>Verify installation: <code>python3 --version</code></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="troubleshooting-item">
+                <div class="troubleshooting-header">
+                    <svg class="troubleshooting-icon" viewBox="0 0 24 24" fill="var(--ctp-blue)">
+                        <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-1.4-1.4-6 6 6 6 1.4-1.4z"/>
+                    </svg>
+                    <h3>Neovim LSP Not Working</h3>
+                </div>
+                <div class="troubleshooting-content">
+                    <p><strong>Cause:</strong> LSP server not starting or configuration issues</p>
+                    <p><strong>Solution:</strong></p>
+                    <ul>
+                        <li>Check Neovim version: <code>nvim --version</code> (should be 0.5+)</li>
+                        <li>Verify LSP server: <code>naya-lsp --version</code></li>
+                        <li>Check Neovim configuration for errors</li>
+                        <li>Restart Neovim after installation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

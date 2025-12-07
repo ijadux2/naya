@@ -1,0 +1,384 @@
+<!-- Playground Section -->
+<div class="container">
+    <div class="section-header">
+        <h1>Playground</h1>
+        <p class="section-subtitle">Try Naya in your browser with live compilation and execution</p>
+    </div>
+
+    <div class="playground-container">
+        <div class="playground-editor">
+            <div class="editor-header">
+                <div class="editor-controls">
+                    <button class="btn btn-secondary" onclick="loadExample('hello')">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                        </svg>
+                        Hello World
+                    </button>
+                    <button class="btn btn-secondary" onclick="loadExample('types')">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                        </svg>
+                        Types Demo
+                    </button>
+                    <button class="btn btn-secondary" onclick="loadExample('generics')">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                        </svg>
+                        Generics
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearEditor()">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 7l-.867 12.142A2 2 0 0116 21H8a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1H3"/>
+                        </svg>
+                        Clear
+                    </button>
+                </div>
+                <div class="editor-actions">
+                    <button class="btn btn-primary" onclick="runCode()" id="runCode">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                        </svg>
+                        Run Code
+                    </button>
+                    <button class="btn btn-secondary" onclick="shareCode()">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.25c0-1.57.957-2.925-2.342-4.092-.395-.872-.876-1.416-1.416-.876 0-1.672.398-2.342.876-2.342zm-1.8 2.342h-2.684v-2.342h2.684zm0 2.684h2.684v2.342h-2.684z"/>
+                        </svg>
+                        Share
+                    </button>
+                </div>
+            </div>
+            <div class="editor-main">
+                <div class="line-numbers" id="lineNumbers"></div>
+                <textarea 
+                    id="codeEditor" 
+                    class="code-editor" 
+                    placeholder="Enter your Naya code here..."
+                    spellcheck="false"
+                    oninput="updateLineNumbers()"
+                    onscroll="syncLineNumbers()"
+                ></textarea>
+            </div>
+        </div>
+
+        <div class="playground-output">
+            <div class="output-header">
+                <h3>Output</h3>
+                <div class="output-controls">
+                    <button class="btn btn-sm" onclick="clearOutput()">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 7l-.867 12.142A2 2 0 0116 21H8a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1H3"/>
+                        </svg>
+                        Clear
+                    </button>
+                    <button class="btn btn-sm" onclick="downloadCode()">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Download
+                    </button>
+                </div>
+            </div>
+            <div class="output-content" id="output">
+                <div class="output-placeholder">
+                    <svg class="placeholder-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8.5 12.8l5.7 5.7c.8-.8.8-2 0-2.8L8.5 12.8z"/>
+                        <path d="M12 2v6m0 4v2m6-10h6m-6 0h-6"/>
+                    </svg>
+                    <p>Run your code to see the output here</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="playground-features">
+        <h2>Playground Features</h2>
+        <div class="grid grid-3">
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="var(--ctp-green)">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0"/>
+                    </svg>
+                    <h3>Live Compilation</h3>
+                </div>
+                <div class="card-description">
+                    <p>Compile Naya code in real-time with instant feedback on syntax errors and warnings.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="var(--ctp-blue)">
+                        <path d="M13 2.05v2.02c3.95.49 7 3.85 7 7.93v2c0 1.08-3.05 7.44-7 7.93v2.02l5-5-5z"/>
+                    </svg>
+                    <h3>Code Execution</h3>
+                </div>
+                <div class="card-description">
+                    <p>Execute compiled code safely in a sandboxed environment with controlled resources.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="var(--ctp-mauve)">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 2.28 6.88L12 17.77l-7.28 2.28-5-4.87L2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    <h3>Syntax Highlighting</h3>
+                </div>
+                <div class="card-description">
+                    <p>Full syntax highlighting with support for all Naya language features.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="var(--ctp-pink)">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                    <h3>Auto Completion</h3>
+                </div>
+                <div class="card-description">
+                    <p>Intelligent code completion for keywords, types, functions, and standard library items.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="var(--ctp-yellow)">
+                        <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-1.4-1.4-6 6 6 6 1.4-1.4z"/>
+                    </svg>
+                    <h3>Error Detection</h3>
+                </div>
+                <div class="card-description">
+                    <p>Real-time error detection with helpful messages and suggested fixes.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="var(--ctp-teal)">
+                        <path d="M8.5 12.8l5.7 5.7c.8-.8.8-2 0-2.8L8.5 12.8z"/>
+                        <path d="M12 2v6m0 4v2m6-10h6m-6 0h-6"/>
+                    </svg>
+                    <h3>Share & Export</h3>
+                </div>
+                <div class="card-description">
+                    <p>Share your code snippets and export complete projects with one click.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="playground-examples">
+        <h2>Example Templates</h2>
+        <div class="example-templates">
+            <div class="template-card" onclick="loadExample('hello')">
+                <h4>Hello World</h4>
+                <p>Basic "Hello, World!" program</p>
+            </div>
+            <div class="template-card" onclick="loadExample('calculator')">
+                <h4>Calculator</h4>
+                <p>Simple arithmetic calculator with user input</p>
+            </div>
+            <div class="template-card" onclick="loadExample('fibonacci')">
+                <h4>Fibonacci</h4>
+                <p>Generate Fibonacci sequence using recursion</p>
+            </div>
+            <div class="template-card" onclick="loadExample('sorting')">
+                <h4>Sorting</h4>
+                <p>Implement various sorting algorithms</p>
+            </div>
+            <div class="template-card" onclick="loadExample('game')">
+                <h4>Simple Game</h4>
+                <p>Text-based adventure game</p>
+            </div>
+            <div class="template-card" onclick="loadExample('system')">
+                <h4>System Tools</h4>
+                <p>File operations and system utilities</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.playground-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-xl);
+}
+
+.playground-editor {
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+}
+
+.editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md);
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.editor-controls {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.editor-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.editor-main {
+    display: flex;
+    flex: 1;
+    position: relative;
+}
+
+.line-numbers {
+    background-color: var(--code-bg);
+    border-right: 1px solid var(--code-border);
+    padding: var(--spacing-md);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+    user-select: none;
+    overflow: hidden;
+    white-space: pre;
+}
+
+.code-editor {
+    flex: 1;
+    background-color: var(--code-bg);
+    border: none;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    resize: none;
+    outline: none;
+    padding: var(--spacing-md);
+    tab-size: 4;
+}
+
+.playground-output {
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+}
+
+.output-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md);
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.output-controls {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.output-content {
+    flex: 1;
+    padding: var(--spacing-lg);
+    background-color: var(--code-bg);
+    overflow-y: auto;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+}
+
+.output-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.placeholder-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: var(--spacing-md);
+    opacity: 0.5;
+}
+
+.playground-features {
+    margin-top: var(--spacing-2xl);
+}
+
+.playground-examples {
+    margin-top: var(--spacing-xl);
+}
+
+.example-templates {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.template-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.template-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+}
+
+.template-card h4 {
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.template-card p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.btn-sm {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+    .playground-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .playground-editor {
+        height: 400px;
+    }
+    
+    .playground-output {
+        height: 300px;
+    }
+    
+    .editor-controls {
+        flex-wrap: wrap;
+    }
+    
+    .example-templates {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+}
+</style>

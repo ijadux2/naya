@@ -1,0 +1,467 @@
+" Naya code snippets for Neovim
+" Requires vim-snippets or UltiSnips plugin
+
+if !exists('loaded_ultisnips')
+  finish
+endif
+
+" Function snippet
+snippet func "Function definition"
+func ${1:function_name}(${2:param}: ${3:type}): ${4:return_type} {
+    ${0:// body}
+}
+endsnippet
+
+" Function without return type
+snippet funcv "Function without return type"
+func ${1:function_name}(${2:param}: ${3:type}) {
+    ${0:// body}
+}
+endsnippet
+
+" Main function
+snippet main "Main function"
+func main(): int {
+    ${0:// body}
+    return 0
+}
+endsnippet
+
+" If statement
+snippet if "If statement"
+if ${1:condition} {
+    ${0:// body}
+}
+endsnippet
+
+" If-else statement
+snippet ife "If-else statement"
+if ${1:condition} {
+    ${2:// then body}
+} else {
+    ${0:// else body}
+}
+endsnippet
+
+" If-else if-else statement
+snippet ifee "If-else if-else statement"
+if ${1:condition1} {
+    ${2:// body1}
+} else if ${3:condition2} {
+    ${4:// body2}
+} else {
+    ${0:// body3}
+}
+endsnippet
+
+" While loop
+snippet while "While loop"
+while ${1:condition} {
+    ${0:// body}
+}
+endsnippet
+
+" For range loop
+snippet for "For range loop"
+for ${1:i} in ${2:0..10} {
+    ${0:// body}
+}
+endsnippet
+
+" For array loop
+snippet fora "For array loop"
+for ${1:item} in ${2:array} {
+    ${0:// body}
+}
+endsnippet
+
+" For enumerate loop
+snippet fore "For enumerate loop"
+for ${1:i}, ${2:item} in ${3:array}.enumerate() {
+    ${0:// body}
+}
+endsnippet
+
+" Match statement
+snippet match "Match statement"
+match ${1:expr} {
+    ${2:pattern} => ${3:result},
+    ${0:other} => ${4:default},
+}
+endsnippet
+
+" Struct definition
+snippet struct "Struct definition"
+struct ${1:StructName} {
+    ${2:field}: ${3:type},
+    ${0:// more fields}
+}
+endsnippet
+
+" Struct with methods
+snippet structm "Struct with methods"
+struct ${1:StructName} {
+    ${2:field}: ${3:type},
+    
+    func ${4:method}(self: ${1:StructName}): ${5:return_type} {
+        ${0:// body}
+    }
+}
+endsnippet
+
+" Union definition
+snippet union "Union definition"
+union ${1:UnionName} {
+    ${2:field}: ${3:type},
+    ${0:// more fields}
+}
+endsnippet
+
+" Enum definition
+snippet enum "Enum definition"
+enum ${1:EnumName} {
+    ${2:Value1},
+    ${3:Value2},
+    ${0:Value3}
+}
+endsnippet
+
+" Enum with values
+snippet enumv "Enum with values"
+enum ${1:EnumName} {
+    ${2:Value1} = ${3:0},
+    ${4:Value2} = ${5:1},
+    ${0:Value3} = ${6:2}
+}
+endsnippet
+
+" Type declaration
+snippet type "Type declaration"
+${1:TypeName}: type = ${2:type_definition}
+endsnippet
+
+" Variable declaration
+snippet var "Variable declaration"
+${1:name}: ${2:type} = ${3:value}
+endsnippet
+
+" Variable without initialization
+snippet varn "Variable without initialization"
+${1:name}: ${2:type}
+endsnippet
+
+" Constant declaration
+snippet const "Constant declaration"
+${1:NAME}: comptime ${2:type} = ${3:value}
+endsnippet
+
+" Defer statement
+snippet defer "Defer statement"
+defer ${1:cleanup_function}()
+endsnippet
+
+" Try-catch
+snippet try "Try-catch"
+try {
+    ${1:risky_operation()}
+} catch ${2:error} {
+    ${0:// handle error}
+}
+endsnippet
+
+" Try expression
+snippet trye "Try expression"
+${1:result} = try ${2:risky_function()} or return ${3:Err("Failed")}
+endsnippet
+
+" Import statement
+snippet import "Import statement"
+import ${1:module_name}
+endsnippet
+
+" Export function
+snippet export "Export function"
+export "c" func ${1:function_name}(${2:param}: ${3:type}): ${4:return_type} {
+    ${0:// body}
+}
+endsnippet
+
+" Extern block
+snippet extern "Extern block"
+extern "c" {
+    func ${1:function_name}(${2:param}: ${3:type}): ${4:return_type}
+}
+endsnippet
+
+" System call write
+syscall.write(${1:fd}, ${2:buffer}, ${3:count})
+endsnippet
+
+" System call read
+snippet sysread "System call read"
+syscall.read(${1:fd}, ${2:buffer}, ${3:count})
+endsnippet
+
+" System call exit
+snippet sysexit "System call exit"
+syscall.exit(${1:code})
+endsnippet
+
+" Memory allocation
+snippet alloc "Memory allocation"
+${1:ptr}: ptr[${2:type}] = alloc(${3:type}, ${4:size})
+endsnippet
+
+" Arena allocation
+snippet arena "Arena allocation"
+arena: Arena = {}
+${1:data}: []${2:type} = arena.alloc([]${3:type}, ${4:size})
+endsnippet
+
+" Result type
+snippet result "Result type"
+Result[${1:T}, ${2:E}]
+endsnippet
+
+" Ok value
+snippet ok "Ok value"
+Ok(${1:value})
+endsnippet
+
+" Err value
+snippet err "Err value"
+Err(${1:error})
+endsnippet
+
+" Pointer type
+snippet ptr "Pointer type"
+ptr[${1:type}]
+endsnippet
+
+" Unsafe pointer
+snippet uptr "Unsafe pointer"
+uptr[${1:type}]
+endsnippet
+
+" C pointer
+snippet cptr "C pointer"
+cptr[${1:type}]
+endsnippet
+
+" Array type
+snippet array "Array type"
+[${1:size}]${2:type}
+endsnippet
+
+" Slice type
+snippet slice "Slice type"
+[]${1:type}
+endsnippet
+
+" Dynamic array
+snippet dyn "Dynamic array"
+dyn[${1:type}]
+endsnippet
+
+" Optional type
+snippet opt "Optional type"
+?${1:type}
+endsnippet
+
+" Generic function
+snippet gfunc "Generic function"
+func ${1:function_name}(${2:T}: type)(${3:param}: ${4:type}): ${5:return_type} {
+    ${0:// body}
+}
+endsnippet
+
+" Generic struct
+snippet gstruct "Generic struct"
+struct ${1:StructName}(${2:T}: type) {
+    ${3:field}: ${2:T},
+    ${0:// more fields}
+}
+endsnippet
+
+" Comptime function
+snippet cfunc "Comptime function"
+func ${1:function_name}(${2:param}: comptime ${3:type}): comptime ${4:type} {
+    ${0:// body}
+}
+endsnippet
+
+" Comptime if
+snippet cif "Comptime if"
+if comptime ${1:condition} {
+    ${0:// body}
+}
+endsnippet
+
+" Sizeof
+snippet sizeof "Sizeof"
+@SizeOf(${1:type})
+endsnippet
+
+" Alignof
+snippet alignof "Alignof"
+@AlignOf(${1:type})
+endsnippet
+
+" Typeof
+snippet typeof "Typeof"
+@TypeOf(${1:expr})
+endsnippet
+
+" Has field
+snippet hasfield "Has field"
+@hasField(${1:type}, "${2:field}")
+endsnippet
+
+" String literal
+snippet str "String literal"
+"${1:text}"
+endsnippet
+
+" Character literal
+snippet char "Character literal"
+'${1:c}'
+endsnippet
+
+" Integer literal
+snippet int "Integer literal"
+${1:42}
+endsnippet
+
+" Float literal
+snippet float "Float literal"
+${1:3.14}
+endsnippet
+
+" Boolean true
+snippet true "Boolean true"
+true
+endsnippet
+
+" Boolean false
+snippet false "Boolean false"
+false
+endsnippet
+
+" Null value
+snippet null "Null value"
+null
+endsnippet
+
+" Binary operation
+snippet binop "Binary operation"
+${1:left} ${2:op} ${3:right}
+endsnippet
+
+" Assignment
+snippet assign "Assignment"
+${1:left} = ${2:right}
+endsnippet
+
+" Comparison
+snippet comp "Comparison"
+${1:left} == ${2:right}
+endsnippet
+
+" Function call
+snippet call "Function call"
+${1:function}(${2:arg1}, ${3:arg2})
+endsnippet
+
+" Method call
+snippet mcall "Method call"
+${1:object}.${2:method}(${3:arg1}, ${4:arg2})
+endsnippet
+
+" Field access
+snippet field "Field access"
+${1:object}.${2:field}
+endsnippet
+
+" Array access
+snippet index "Array access"
+${1:array}[${2:index}]
+endsnippet
+
+" Return statement
+snippet ret "Return statement"
+return ${1:value}
+endsnippet
+
+" Break statement
+snippet break "Break statement"
+break
+endsnippet
+
+" Continue statement
+snippet cont "Continue statement"
+continue
+endsnippet
+
+" Comment line
+snippet // "Comment line"
+// ${1:comment}
+endsnippet
+
+" Comment block
+snippet /** "Comment block"
+/**
+ * ${1:comment}
+ */
+endsnippet
+
+" TODO comment
+snippet todo "TODO comment"
+// TODO: ${1:task}
+endsnippet
+
+" FIXME comment
+snippet fixme "FIXME comment"
+// FIXME: ${1:issue}
+endsnippet
+
+" NOTE comment
+snippet note "NOTE comment"
+// NOTE: ${1:note}
+endsnippet
+
+" File header
+snippet header "File header"
+// ${1:filename}
+// Created: ${2:date}
+// Author: ${3:author}
+// Description: ${4:description}
+
+${0}
+endsnippet
+
+" License header
+snippet license "License header"
+// MIT License
+//
+// Copyright (c) ${1:year} ${2:author}
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+${0}
+endsnippet

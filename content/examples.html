@@ -1,0 +1,676 @@
+<!-- Examples Section -->
+<div class="container">
+    <div class="section-header">
+        <h1>Examples</h1>
+        <p class="section-subtitle">Learn Naya through practical examples and tutorials</p>
+    </div>
+
+    <div class="example-categories">
+        <div class="category-tabs">
+            <button class="tab active" data-tab="basics">Basics</button>
+            <button class="tab" data-tab="system">System Programming</button>
+            <button class="tab" data-tab="gamedev">Game Development</button>
+            <button class="tab" data-tab="advanced">Advanced</button>
+        </div>
+
+        <div class="tab-content active" data-content="basics">
+            <div class="example-grid">
+                <div class="example-card">
+                    <div class="example-header">
+                        <h3>Hello World</h3>
+                        <span class="difficulty easy">Easy</span>
+                    </div>
+                    <div class="example-description">
+                        <p>The classic "Hello, World!" program in Naya.</p>
+                        <div class="example-features">
+                            <span class="feature-tag">Basic Syntax</span>
+                            <span class="feature-tag">Functions</span>
+                            <span class="feature-tag">System Calls</span>
+                        </div>
+                    </div>
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>hello.naya</span>
+                            <button class="copy-btn" data-code="func main(): int {
+    message: string = \"Hello, World!\n\"
+    syscall.write(1, message, 14)
+    return 0
+}" onclick="copyToClipboard(this)">
+                                <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 4H7c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h8c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <pre><code class="language-naya">func main(): int {
+    message: string = "Hello, World!\n"
+    syscall.write(1, message, 14)
+    return 0
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-header">
+                        <h3>Variables and Types</h3>
+                        <span class="difficulty easy">Easy</span>
+                    </div>
+                    <div class="example-description">
+                        <p>Demonstrates variable declaration and different data types.</p>
+                        <div class="example-features">
+                            <span class="feature-tag">Type System</span>
+                            <span class="feature-tag">Variables</span>
+                            <span class="feature-tag">Constants</span>
+                        </div>
+                    </div>
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>types.naya</span>
+                            <button class="copy-btn" data-code="func main(): int {
+    // Integer types
+    small: int8 = 127
+    medium: int32 = 50000
+    large: int64 = 1000000
+    
+    // Unsigned types
+    count: uint = 42
+    index: uint32 = 100
+    
+    // Floating point
+    pi: float64 = 3.14159
+    temperature: float32 = 98.6
+    
+    // Boolean and string
+    is_ready: bool = true
+    name: string = \"Naya\"
+    
+    // Compile-time constants
+    BUFFER_SIZE: comptime int = 1024
+    VERSION: comptime string = \"1.0.0\"
+    
+    return 0
+}" onclick="copyToClipboard(this)">
+                                <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 4H7c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h8c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <pre><code class="language-naya">func main(): int {
+    // Integer types
+    small: int8 = 127
+    medium: int32 = 50000
+    large: int64 = 1000000
+    
+    // Unsigned types
+    count: uint = 42
+    index: uint32 = 100
+    
+    // Floating point
+    pi: float64 = 3.14159
+    temperature: float32 = 98.6
+    
+    // Boolean and string
+    is_ready: bool = true
+    name: string = "Naya"
+    
+    // Compile-time constants
+    BUFFER_SIZE: comptime int = 1024
+    VERSION: comptime string = "1.0.0"
+    
+    return 0
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-header">
+                        <h3>Control Flow</h3>
+                        <span class="difficulty easy">Easy</span>
+                    </div>
+                    <div class="example-description">
+                        <p>Shows if-else, while loops, and for loops in Naya.</p>
+                        <div class="example-features">
+                            <span class="feature-tag">Conditionals</span>
+                            <span class="feature-tag">Loops</span>
+                            <span class="feature-tag">Range</span>
+                        </div>
+                    </div>
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>control_flow.naya</span>
+                            <button class="copy-btn" data-code="func main(): int {
+    // If-else statement
+    age: int = 25
+    
+    if age < 18 {
+        print(\"Minor\")
+    } else if age < 65 {
+        print(\"Adult\")
+    } else {
+        print(\"Senior\")
+    }
+    
+    // While loop
+    i: int = 0
+    while i < 5 {
+        print(\"While iteration: {i}\")
+        i = i + 1
+    }
+    
+    // For loop with range
+    for j in 0..3 {
+        print(\"For iteration: {j}\")
+    }
+    
+    // For loop over array
+    numbers: [5]int = {10, 20, 30, 40, 50}
+    for num in numbers {
+        print(\"Number: {num}\")
+    }
+    
+    return 0
+}" onclick="copyToClipboard(this)">
+                                <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 4H7c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h8c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <pre><code class="language-naya">func main(): int {
+    // If-else statement
+    age: int = 25
+    
+    if age < 18 {
+        print("Minor")
+    } else if age < 65 {
+        print("Adult")
+    } else {
+        print("Senior")
+    }
+    
+    // While loop
+    i: int = 0
+    while i < 5 {
+        print("While iteration: {i}")
+        i = i + 1
+    }
+    
+    // For loop with range
+    for j in 0..3 {
+        print("For iteration: {j}")
+    }
+    
+    // For loop over array
+    numbers: [5]int = {10, 20, 30, 40, 50}
+    for num in numbers {
+        print("Number: {num}")
+    }
+    
+    return 0
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" data-content="system">
+            <div class="example-grid">
+                <div class="example-card">
+                    <div class="example-header">
+                        <h3>File Operations</h3>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <div class="example-description">
+                        <p>Implement a simple cat utility using system calls.</p>
+                        <div class="example-features">
+                            <span class="feature-tag">System Calls</span>
+                            <span class="feature-tag">File I/O</span>
+                            <span class="feature-tag">Error Handling</span>
+                        </div>
+                    </div>
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>cat.naya</span>
+                            <button class="copy-btn" data-code="func main(): int {
+    buffer: [4096]uint8
+    
+    while true {
+        bytes_read: uint = syscall.read(0, buffer, 4096)
+        if bytes_read == 0 {
+            break  // EOF
+        }
+        
+        bytes_written: uint = syscall.write(1, buffer, bytes_read)
+        if bytes_written != bytes_read {
+            print(\"Write error\")
+            return 1
+        }
+    }
+    
+    return 0
+}" onclick="copyToClipboard(this)">
+                                <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 4H7c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h8c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <pre><code class="language-naya">func main(): int {
+    buffer: [4096]uint8
+    
+    while true {
+        bytes_read: uint = syscall.read(0, buffer, 4096)
+        if bytes_read == 0 {
+            break  // EOF
+        }
+        
+        bytes_written: uint = syscall.write(1, buffer, bytes_read)
+        if bytes_written != bytes_read {
+            print("Write error")
+            return 1
+        }
+    }
+    
+    return 0
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-header">
+                        <h3>Process Management</h3>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <div class="example-description">
+                        <p>Create a simple process monitor using system calls.</p>
+                        <div class="example-features">
+                            <span class="feature-tag">Process Control</span>
+                            <span class="feature-tag">System Info</span>
+                            <span class="feature-tag">Memory</span>
+                        </div>
+                    </div>
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>process_monitor.naya</span>
+                            <button class="copy-btn" data-code="import sys
+
+func get_process_info(pid: int): Result[ProcessInfo, string] {
+    // Read process information from /proc filesystem
+    stat_file: string = \"/proc/{pid}/stat\"
+    file: int = sys.open(stat_file, sys.O_RDONLY)
+    
+    if file < 0 {
+        return Err(\"Cannot open process file\")
+    }
+    
+    defer sys.close(file)
+    
+    buffer: [1024]uint8
+    bytes_read: uint = sys.read(file, buffer, 1024)
+    
+    if bytes_read == 0 {
+        return Err(\"Cannot read process file\")
+    }
+    
+    // Parse process information (simplified)
+    return Ok(parse_process_info(buffer))
+}
+
+func main(): int {
+    current_pid: int = sys.getpid()
+    
+    match get_process_info(current_pid) {
+        Ok(info) => {
+            print(\"Process ID: {info.pid}\")
+            print(\"Parent PID: {info.ppid}\")
+            print(\"Command: {info.comm}\")
+        },
+        Err(error) => {
+            print(\"Error: {error}\")
+            return 1
+        }
+    }
+    
+    return 0
+}" onclick="copyToClipboard(this)">
+                                <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 4H7c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h8c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <pre><code class="language-naya">import sys
+
+func get_process_info(pid: int): Result[ProcessInfo, string] {
+    // Read process information from /proc filesystem
+    stat_file: string = "/proc/{pid}/stat"
+    file: int = sys.open(stat_file, sys.O_RDONLY)
+    
+    if file < 0 {
+        return Err("Cannot open process file")
+    }
+    
+    defer sys.close(file)
+    
+    buffer: [1024]uint8
+    bytes_read: uint = sys.read(file, buffer, 1024)
+    
+    if bytes_read == 0 {
+        return Err("Cannot read process file")
+    }
+    
+    // Parse process information (simplified)
+    return Ok(parse_process_info(buffer))
+}
+
+func main(): int {
+    current_pid: int = sys.getpid()
+    
+    match get_process_info(current_pid) {
+        Ok(info) => {
+            print("Process ID: {info.pid}")
+            print("Parent PID: {info.ppid}")
+            print("Command: {info.comm}")
+        },
+        Err(error) => {
+            print("Error: {error}")
+            return 1
+        }
+    }
+    
+    return 0
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" data-content="gamedev">
+            <div class="example-grid">
+                <div class="example-card">
+                    <div class="example-header">
+                        <h3>Raylib Integration</h3>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <div class="example-description">
+                        <p>Simple graphics application using Raylib library.</p>
+                        <div class="example-features">
+                            <span class="feature-tag">Graphics</span>
+                            <span class="feature-tag">Game Loop</span>
+                            <span class="feature-tag">C ABI</span>
+                        </div>
+                    </div>
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>raylib_game.naya</span>
+                            <button class="copy-btn" data-code="import raylib
+
+Player: type = struct {
+    x: float64
+    y: float64
+    radius: float64
+    color: uint32
+}
+
+func main(): int {
+    raylib.initWindow(800, 600, \"Naya + Raylib\")
+    defer raylib.closeWindow()
+    
+    player: Player = {
+        x = 400.0,
+        y = 300.0,
+        radius = 20.0,
+        color = raylib.MAROON
+    }
+    
+    while !raylib.windowShouldClose() {
+        raylib.beginDrawing()
+        raylib.clearBackground(raylib.RAYWHITE)
+        
+        // Update player
+        if raylib.isKeyDown(raylib.KEY_RIGHT) {
+            player.x = player.x + 5.0
+        }
+        if raylib.isKeyDown(raylib.KEY_LEFT) {
+            player.x = player.x - 5.0
+        }
+        if raylib.isKeyDown(raylib.KEY_UP) {
+            player.y = player.y - 5.0
+        }
+        if raylib.isKeyDown(raylib.KEY_DOWN) {
+            player.y = player.y + 5.0
+        }
+        
+        // Keep player in bounds
+        if player.x < player.radius {
+            player.x = player.radius
+        }
+        if player.x > 800 - player.radius {
+            player.x = 800 - player.radius
+        }
+        if player.y < player.radius {
+            player.y = player.radius
+        }
+        if player.y > 600 - player.radius {
+            player.y = 600 - player.radius
+        }
+        
+        // Draw player
+        raylib.drawCircleV(
+            raylib.Vector2{x = player.x, y = player.y},
+            player.radius,
+            player.color
+        )
+        
+        raylib.endDrawing()
+    }
+    
+    return 0
+}" onclick="copyToClipboard(this)">
+                                <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 4H7c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h8c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <pre><code class="language-naya">import raylib
+
+Player: type = struct {
+    x: float64
+    y: float64
+    radius: float64
+    color: uint32
+}
+
+func main(): int {
+    raylib.initWindow(800, 600, "Naya + Raylib")
+    defer raylib.closeWindow()
+    
+    player: Player = {
+        x = 400.0,
+        y = 300.0,
+        radius = 20.0,
+        color = raylib.MAROON
+    }
+    
+    while !raylib.windowShouldClose() {
+        raylib.beginDrawing()
+        raylib.clearBackground(raylib.RAYWHITE)
+        
+        // Update player
+        if raylib.isKeyDown(raylib.KEY_RIGHT) {
+            player.x = player.x + 5.0
+        }
+        if raylib.isKeyDown(raylib.KEY_LEFT) {
+            player.x = player.x - 5.0
+        }
+        if raylib.isKeyDown(raylib.KEY_UP) {
+            player.y = player.y - 5.0
+        }
+        if raylib.isKeyDown(raylib.KEY_DOWN) {
+            player.y = player.y + 5.0
+        }
+        
+        // Keep player in bounds
+        if player.x < player.radius {
+            player.x = player.radius
+        }
+        if player.x > 800 - player.radius {
+            player.x = 800 - player.radius
+        }
+        if player.y < player.radius {
+            player.y = player.radius
+        }
+        if player.y > 600 - player.radius {
+            player.y = 600 - player.radius
+        }
+        
+        // Draw player
+        raylib.drawCircleV(
+            raylib.Vector2{x = player.x, y = player.y},
+            player.radius,
+            player.color
+        )
+        
+        raylib.endDrawing()
+    }
+    
+    return 0
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" data-content="advanced">
+            <div class="example-grid">
+                <div class="example-card">
+                    <div class="example-header">
+                        <h3>Generic Data Structures</h3>
+                        <span class="difficulty hard">Hard</span>
+                    </div>
+                    <div class="example-description">
+                        <p>Implement generic data structures with compile-time evaluation.</p>
+                        <div class="example-features">
+                            <span class="feature-tag">Generics</span>
+                            <span class="feature-tag">Comptime</span>
+                            <span class="feature-tag">Memory Management</span>
+                        </div>
+                    </div>
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>generics.naya</span>
+                            <button class="copy-btn" data-code="Vector: type = struct(T: type) {
+    data: ptr[T]
+    len: uint
+    cap: uint
+}
+
+func Vector(T: type).new(capacity: uint): Vector(T) {
+    data: ptr[T] = alloc(T, capacity)
+    return Vector(T){
+        data = data,
+        len = 0,
+        cap = capacity
+    }
+}
+
+func Vector(T: type).append(self: Vector(T), item: T): void {
+    if self.len >= self.cap {
+        // Resize logic would go here
+        return
+    }
+    
+    self.data[self.len] = item
+    self.len = self.len + 1
+}
+
+func Vector(T: type).get(self: Vector(T), index: uint): T {
+    if index >= self.len {
+        panic(\"Index out of bounds\")
+    }
+    return self.data[index]
+}
+
+func main(): int {
+    // Create vector of integers
+    numbers: Vector(int) = Vector(int).new(10)
+    
+    // Add elements
+    numbers.append(10)
+    numbers.append(20)
+    numbers.append(30)
+    
+    // Access elements
+    for i in 0..numbers.len {
+        print(\"Number {i}: {numbers.get(i)}\")
+    }
+    
+    // Create vector of strings
+    strings: Vector(string) = Vector(string).new(5)
+    strings.append(\"Hello\")
+    strings.append(\"Naya\")
+    strings.append(\"World\")
+    
+    return 0
+}" onclick="copyToClipboard(this)">
+                                <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 4H7c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h8c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <pre><code class="language-naya">Vector: type = struct(T: type) {
+    data: ptr[T]
+    len: uint
+    cap: uint
+}
+
+func Vector(T: type).new(capacity: uint): Vector(T) {
+    data: ptr[T] = alloc(T, capacity)
+    return Vector(T){
+        data = data,
+        len = 0,
+        cap = capacity
+    }
+}
+
+func Vector(T: type).append(self: Vector(T), item: T): void {
+    if self.len >= self.cap {
+        // Resize logic would go here
+        return
+    }
+    
+    self.data[self.len] = item
+    self.len = self.len + 1
+}
+
+func Vector(T: type).get(self: Vector(T), index: uint): T {
+    if index >= self.len {
+        panic("Index out of bounds")
+    }
+    return self.data[index]
+}
+
+func main(): int {
+    // Create vector of integers
+    numbers: Vector(int) = Vector(int).new(10)
+    
+    // Add elements
+    numbers.append(10)
+    numbers.append(20)
+    numbers.append(30)
+    
+    // Access elements
+    for i in 0..numbers.len {
+        print("Number {i}: {numbers.get(i)}")
+    }
+    
+    // Create vector of strings
+    strings: Vector(string) = Vector(string).new(5)
+    strings.append("Hello")
+    strings.append("Naya")
+    strings.append("World")
+    
+    return 0
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

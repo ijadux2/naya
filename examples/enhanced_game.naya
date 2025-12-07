@@ -1,0 +1,262 @@
+// Enhanced Naya Example - Raylib Integration
+// Demonstrates advanced features: structs, generics, memory management, etc.
+
+import raylib
+
+// Generic vector type
+Vector: type = struct(T: type) {
+    x: T
+    y: T
+    
+    // Method with generic parameter
+    func add(self: Vector(T), other: Vector(T)): Vector(T) {
+        return Vector(T){x = self.x + other.x, y = self.y + other.y}
+    }
+    
+    func magnitude(self: Vector(T)): float64 {
+        return sqrt(self.x * self.x + self.y * self.y)
+    }
+}
+
+// Player struct with methods
+Player: type = struct {
+    position: Vector(float64)
+    velocity: Vector(float64)
+    color: uint32
+    radius: float64
+    
+    // Method
+    func update(self: Player, dt: float64) {
+        self.position = self.position.add(
+            Vector(float64){x = self.velocity.x * dt, y = self.velocity.y * dt}
+        )
+    }
+    
+    func draw(self: Player) {
+        raylib.drawCircleV(
+            raylib.Vector2{x = self.position.x, y = self.position.y},
+            self.radius,
+            self.color
+        )
+    }
+}
+
+// Game state enum
+GameState: type = enum {
+    Menu
+    Playing
+    Paused
+    GameOver
+}
+
+// Result type for error handling
+GameError: type = enum {
+    InitFailed
+    ResourceNotFound
+    InvalidState
+}
+
+// Game manager with arena allocation
+GameManager: type = struct {
+    player: Player
+    state: GameState
+    score: uint
+    arena: Arena
+    
+    func init(): Result[GameManager, GameError] {
+        arena: Arena = {}
+        
+        // Initialize player
+        player: Player = {
+            position = Vector(float64){x = 400.0, y = 300.0},
+            velocity = Vector(float64){x = 0.0, y = 0.0},
+            color = raylib.MAROON,
+            radius = 20.0
+        }
+        
+        return Ok(GameManager{
+            player = player,
+            state = GameState.Menu,
+            score = 0,
+            arena = arena
+        })
+    }
+    
+    func handle_input(self: GameManager) {
+        if raylib.isKeyPressed(raylib.KEY_RIGHT) {
+            self.player.velocity.x = 5.0
+        } else if raylib.isKeyPressed(raylib.KEY_LEFT) {
+            self.player.velocity.x = -5.0
+        } else {
+            self.player.velocity.x = 0.0
+        }
+        
+        if raylib.isKeyPressed(raylib.KEY_UP) {
+            self.player.velocity.y = -5.0
+        } else if raylib.isKeyPressed(raylib.KEY_DOWN) {
+            self.player.velocity.y = 5.0
+        } else {
+            self.player.velocity.y = 0.0
+        }
+        
+        // State transitions
+        match self.state {
+            GameState.Menu => {
+                if raylib.isKeyPressed(raylib.KEY_SPACE) {
+                    self.state = GameState.Playing
+                }
+            },
+            GameState.Playing => {
+                if raylib.isKeyPressed(raylib.KEY_P) {
+                    self.state = GameState.Paused
+                }
+            },
+            GameState.Paused => {
+                if raylib.isKeyPressed(raylib.KEY_P) {
+                    self.state = GameState.Playing
+                }
+            },
+            GameState.GameOver => {
+                if raylib.isKeyPressed(raylib.KEY_R) {
+                    self.state = GameState.Menu
+                }
+            }
+        }
+    }
+    
+    func update(self: GameManager, dt: float64) {
+        if self.state == GameState.Playing {
+            self.player.update(dt)
+            
+            // Keep player in bounds
+            if self.player.position.x < self.player.radius {
+                self.player.position.x = self.player.radius
+            }
+            if self.player.position.x > 800.0 - self.player.radius {
+                self.player.position.x = 800.0 - self.player.radius
+            }
+            if self.player.position.y < self.player.radius {
+                self.player.position.y = self.player.radius
+            }
+            if self.player.position.y > 600.0 - self.player.radius {
+                self.player.position.y = 600.0 - self.player.radius
+            }
+        }
+    }
+    
+    func draw(self: GameManager) {
+        raylib.beginDrawing()
+        raylib.clearBackground(raylib.RAYWHITE)
+        
+        match self.state {
+            GameState.Menu => {
+                raylib.drawText("NAYA GAME", 350, 200, 40, raylib.MAROON)
+                raylib.drawText("Press SPACE to start", 320, 300, 20, raylib.GRAY)
+            },
+            GameState.Playing => {
+                self.player.draw()
+                raylib.drawText("Score: 0", 10, 10, 20, raylib.BLACK)
+                raylib.drawText("Press P to pause", 10, 40, 20, raylib.GRAY)
+            },
+            GameState.Paused => {
+                self.player.draw()
+                raylib.drawText("PAUSED", 350, 200, 40, raylib.MAROON)
+                raylib.drawText("Press P to resume", 320, 300, 20, raylib.GRAY)
+            },
+            GameState.GameOver => {
+                raylib.drawText("GAME OVER", 350, 200, 40, raylib.RED)
+                raylib.drawText("Press R to restart", 320, 300, 20, raylib.GRAY)
+            }
+        }
+        
+        raylib.endDrawing()
+    }
+}
+
+// Comptime constants
+SCREEN_WIDTH: comptime int = 800
+SCREEN_HEIGHT: comptime int = 600
+TARGET_FPS: comptime int = 60
+
+// Main function with error handling
+func main(): int {
+    // Initialize raylib
+    raylib.initWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Naya + Raylib Game")
+    defer raylib.closeWindow()
+    
+    raylib.setTargetFPS(TARGET_FPS)
+    
+    // Initialize game with error handling
+    game_result: Result[GameManager, GameError] = GameManager.init()
+    if game_result is Err {
+        print("Failed to initialize game")
+        return 1
+    }
+    
+    game: GameManager = game_result.unwrap()
+    
+    // Main game loop
+    while !raylib.windowShouldClose() {
+        dt: float64 = raylib.getFrameTime()
+        
+        game.handle_input()
+        game.update(dt)
+        game.draw()
+    }
+    
+    return 0
+}
+
+// Utility functions with generics
+func clamp(T: type)(value: T, min: T, max: T): T {
+    if value < min {
+        return min
+    } else if value > max {
+        return max
+    }
+    return value
+}
+
+func lerp(a: float64, b: float64, t: float64): float64 {
+    return a + (b - a) * clamp(t, 0.0, 1.0)
+}
+
+// Memory management example
+func process_data(size: uint): Result[[]int, string] {
+    // Allocate memory with arena
+    arena: Arena = {}
+    defer arena.deinit()
+    
+    data: []int = arena.alloc([]int, size)
+    if data.ptr == null {
+        return Err("Failed to allocate memory")
+    }
+    
+    // Process data
+    for i in 0..size {
+        data[i] = i * 2
+    }
+    
+    return Ok(data)
+}
+
+// System call wrapper
+func write_message(message: string): Result[uint, string] {
+    bytes_written: uint = syscall.write(1, message, message.len)
+    if bytes_written != message.len {
+        return Err("Failed to write complete message")
+    }
+    return Ok(bytes_written)
+}
+
+// Export C-compatible function
+export "c" func get_naya_version(): cptr[char] {
+    return "1.0.0"
+}
+
+// External C function declaration
+extern "c" {
+    func printf(format: cptr[char], ...): int
+    func malloc(size: uint): uptr[void]
+    func free(ptr: uptr[void]): void
+}

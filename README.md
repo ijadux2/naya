@@ -6,23 +6,25 @@
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 ![Python](https://img.shields.io/badge/Python-3.8+-yellow?style=for-the-badge)
 
-*A simple systems programming language for building operating system coreutils*
+*A systems programming language with Zig-like power and bash-like simplicity*
 
 </div>
 
 ## 🎯 Overview
 
-Naya is a minimal, elegant systems programming language designed specifically for building operating system coreutils. It's intentionally simpler than C, Zig, and C++ while providing the essential low-level capabilities needed for systems programming.
+Naya is a modern systems programming language that combines the simplicity of bash with the power of Zig and C++. It features zero-cost abstractions, compile-time evaluation, and seamless C ABI compatibility while maintaining a clean, readable syntax.
 
 ## ✨ Key Features
 
-- **🚀 Simple Syntax**: Clean, readable syntax inspired by modern languages
-- **⚡ Low-level Access**: Direct system call access for OS interactions  
-- **🛡️ Static Typing**: Type safety with basic built-in types
-- **🧠 Memory Management**: Manual memory control with pointers
-- **🌍 Cross-platform**: Compiles to C, then to native binaries
-- **📦 Tiny Runtime**: Minimal overhead, fast compilation
-- **🔧 Coreutils Ready**: Built specifically for OS utilities
+- **🚀 Simple Syntax**: Bash-like simplicity with minimal punctuation
+- **⚡ Zero-Cost Abstractions**: Compile-time features with no runtime overhead
+- **🛡️ Memory Safety**: Manual memory management with safety features
+- **🌍 C Compatibility**: Seamless C ABI integration for universal library support
+- **🧠 Comptime**: Compile-time code execution and generation
+- **📦 Generics**: Type-safe generic programming
+- **🔧 Error Handling**: Result types and try-catch syntax
+- **🎯 Pattern Matching**: Expressive match expressions
+- **🔌 LSP Support**: Full language server for IDE integration
 
 ## 🚀 Quick Start
 
@@ -30,20 +32,70 @@ Naya is a minimal, elegant systems programming language designed specifically fo
 
 - Python 3.8 or higher
 - GCC (or any C compiler)
-- Linux/Unix-like environment
+- Linux/Unix-like environment (or Windows with MinGW/Visual Studio)
 
 ### Installation
 
+#### Automatic Installation (Recommended)
+
+**Linux/macOS:**
 ```bash
 # Clone the repository
 git clone <repository-url>
 cd naya
 
-# Make the compiler executable
-chmod +x naya.py
+# Run the installer
+./install.sh
 
-# Build all coreutils
-./build.sh
+# Or with options
+./install.sh --dev              # Development mode
+./install.sh --skip-neovim      # Skip Neovim config
+./install.sh --skip-deps         # Skip dependency installation
+```
+
+**Windows (PowerShell):**
+```powershell
+# Clone the repository
+git clone <repository-url>
+cd naya
+
+# Run the installer
+.\install.ps1
+
+# Or with options
+.\install.ps1 -Dev              # Development mode
+.\install.ps1 -SkipNeovim      # Skip Neovim config
+.\install.ps1 -SkipDeps         # Skip dependency installation
+```
+
+**Windows (Command Prompt):**
+```cmd
+# Clone the repository
+git clone <repository-url>
+cd naya
+
+# Run the installer
+install.bat
+```
+
+#### Manual Installation
+
+See [INSTALL.md](INSTALL.md) for detailed manual installation instructions.
+
+### Verification
+
+After installation, verify everything works:
+
+```bash
+# Check commands
+naya --version
+naya-build --help
+naya-lsp --version
+
+# Test compilation
+echo 'func main(): int { print("Hello!"); return 0; }' > test.naya
+naya test.naya test
+./test
 ```
 
 ### Your First Program
@@ -66,97 +118,415 @@ python3 naya.py hello.naya hello
 # Output: Hello, Naya!
 ```
 
+### Using the Build System
+
+```bash
+# Initialize a new project
+python3 naya_build.py init my_game
+
+# Build the project
+python3 naya_build.py build
+
+# Run the project
+python3 naya_build.py run
+
+# Run tests
+python3 naya_build.py test
+
+# Clean build artifacts
+python3 naya_build.py clean
+```
+
 ## 📖 Language Reference
 
-### Built-in Types
+### Enhanced Type System
 
-| Type | Description | C Equivalent |
-|------|-------------|--------------|
-| `int` | 64-bit signed integer | `long` |
-| `uint` | 64-bit unsigned integer | `unsigned long` |
-| `uint8` | 8-bit unsigned integer | `unsigned char` |
-| `string` | Null-terminated string | `char*` |
-| `bool` | Boolean (true/false) | `int` |
-| `void` | No return value | `void` |
+#### Basic Types
+```naya
+int, uint, uint8, uint16, uint32, uint64
+int8, int16, int32, int64
+float32, float64
+string, bool, void
+```
+
+#### Advanced Types
+```naya
+ptr[T]           # Safe pointer with bounds checking
+uptr[T]          # Unsafe pointer (no bounds checking)
+cptr[T]          # C-compatible pointer
+[T:SIZE]         # Fixed-size array on stack
+[]T              # Slice (pointer + length)
+dyn[T]           # Dynamic array (heap allocated)
+?T               # Optional type (null or value)
+Result[T, E]     # Result type for error handling
+func(T) -> R     # Function pointer type
+```
 
 ### Variable Declaration
 
 ```naya
+# Simple declaration
 name: type = value
 count: int = 42
 message: string = "Hello, World!"
-is_ready: bool = true
+
+# Comptime constants
+PI: comptime float64 = 3.14159
+BUFFER_SIZE: comptime int = 4096
+
+# Type declarations
+Point: type = struct {
+    x: float64
+    y: float64
+}
 ```
 
 ### Functions
 
 ```naya
-func function_name(param1: type, param2: type): return_type {
-    // function body
-    return value
+# Basic function
+func add(a: int, b: int): int {
+    return a + b
 }
 
-// Example
-func add(a: int, b: int): int {
-    result: int = a + b
-    return result
+# Generic function
+func max(T: type)(a: T, b: T): T {
+    if a > b { return a }
+    return b
+}
+
+# Method
+func distance(self: Point, other: Point): float64 {
+    dx: float64 = self.x - other.x
+    dy: float64 = self.y - other.y
+    return sqrt(dx*dx + dy*dy)
 }
 ```
 
 ### Control Flow
 
 ```naya
-// If-Else
+# If-Else
 if condition {
+    // code
+} else if other_condition {
     // code
 } else {
     // code
 }
 
-// While Loop
+# While Loop
 while condition {
     // code
 }
 
-// For Loop (planned)
+# For Loop
 for i in 0..10 {
-    // code
+    print(i)
+}
+
+# For loop over array
+for item in items {
+    print(item)
+}
+
+# Match expression
+match value {
+    1 => print("One"),
+    2 => print("Two"),
+    3..10 => print("Between 3 and 10"),
+    other => print("Other: {other}"),
 }
 ```
 
-### System Calls
+### Structs and Enums
 
 ```naya
-// Write to file descriptor
-syscall.write(fd: int, buf: ptr[uint8], count: uint): uint
+# Struct with methods
+Player: type = struct {
+    position: Vector(float64)
+    health: int
+    
+    func update(self: Player, dt: float64) {
+        self.position = self.position.add(velocity * dt)
+    }
+}
 
-// Read from file descriptor  
-syscall.read(fd: int, buf: ptr[uint8], count: uint): uint
-
-// Exit program
-syscall.exit(code: int): void
+# Enum
+GameState: type = enum {
+    Menu
+    Playing
+    Paused
+    GameOver
+}
 ```
 
-## 🛠️ Available Coreutils
+### Error Handling
 
-The following utilities are implemented in Naya:
+```naya
+# Result type
+func safe_divide(a: int, b: int): Result[int, string] {
+    if b == 0 {
+        return Err("Division by zero")
+    }
+    return Ok(a / b)
+}
 
-| Utility | Description | Usage |
-|---------|-------------|-------|
-| `hello` | Hello World example | `./hello` |
-| `simple_echo` | Echo utility | `./simple_echo` |
-| `simple_cat` | File concatenation | `echo "test" \| ./simple_cat` |
-| `test` | Basic functionality test | `./test` |
-| `help` | Help information | `./help` |
-| `shell` | Simple shell example | `echo "help" \| ./shell` |
+# Try-catch
+result: int = try safe_divide(10, 2) or return Err("Failed")
+```
 
-### Build All Coreutils
+### Memory Management
+
+```naya
+# Stack allocation
+buffer: [1024]uint8
+
+# Heap allocation with automatic cleanup
+data: []int = alloc([]int, 100)
+
+# Manual memory management
+raw_data: uptr[uint8] = malloc(1024)
+defer free(raw_data)
+
+# Arena allocation
+arena: Arena = {}
+temp_data: []string = arena.alloc([]string, 50)
+```
+
+### C ABI Compatibility
+
+```naya
+# Import C functions
+extern "c" {
+    func printf(format: cptr[char], ...): int
+    func malloc(size: uint): uptr[void]
+    func free(ptr: uptr[void]): void
+}
+
+# Export functions to C
+export "c" func naya_function(param: int): int {
+    return param * 2
+}
+```
+
+## 🛠️ Neovim Integration
+
+### LSP Support
+
+Naya includes a full-featured Language Server Protocol implementation:
+
+```bash
+# Start LSP server (automatically started by Neovim)
+python3 lsp_server.py
+```
+
+Features:
+- **Syntax highlighting** with proper keyword highlighting
+- **Code completion** for keywords, types, and functions
+- **Go to definition** for functions, structs, and enums
+- **Hover information** for types and functions
+- **Error diagnostics** with real-time compilation feedback
+- **Code actions** for building and running projects
+
+### Key Bindings
+
+```vim
+" Compile current file
+nnoremap <F5> :w<CR>:!python3 naya.py %:p %:p:r<CR>
+
+" Compile and run
+nnoremap <F6> :w<CR>:!python3 naya.py %:p %:p:r && ./%:p:r<CR>
+
+" Build project
+nnoremap <F7> :w<CR>:!python3 naya_build.py build<CR>
+
+" Run tests
+nnoremap <F8> :w<CR>:!python3 naya_build.py test<CR>
+```
+
+### Code Snippets
+
+Naya includes comprehensive snippets for common patterns:
+
+- `func` - Function definition
+- `struct` - Struct definition
+- `if` - If statement
+- `for` - For loop
+- `match` - Match expression
+- `try` - Try-catch block
+- `export` - Export function
+- `extern` - Extern block
+
+## 🎮 Library Integration
+
+### Raylib Integration
+
+```naya
+import raylib
+
+func main() {
+    raylib.initWindow(800, 600, "Naya + Raylib")
+    defer raylib.closeWindow()
+    
+    while !raylib.windowShouldClose() {
+        raylib.beginDrawing()
+        raylib.clearBackground(raylib.RAYWHITE)
+        raylib.drawText("Hello from Naya!", 190, 200, 20, raylib.MAROON)
+        raylib.endDrawing()
+    }
+}
+```
+
+### Sokol Integration
+
+```naya
+import sokol
+
+func main() {
+    sg.setup(sg.desc{
+        .environment = sokol.glue.environment(),
+        .logger = sokol.log.func,
+    })
+    defer sg.shutdown()
+    
+    while sokol.app.running() {
+        sg.beginPass(sg.pass{.action = sokol.default_pass_action})
+        sg.endPass()
+        sg.commit()
+    }
+}
+```
+
+## 🛠️ Available Examples
+
+The following examples demonstrate Naya features:
+
+| Example | Description | Features |
+|---------|-------------|----------|
+| `hello.naya` | Hello World | Basic syntax |
+| `simple_cat.naya` | File concatenation | System calls |
+| `enhanced_game.naya` | Raylib game | Structs, generics, memory management |
+| `shell.naya` | Simple shell | System programming |
+| `test.naya` | Basic functionality test | Language features |
+
+### Build All Examples
 
 ```bash
 ./build.sh
 ```
 
-This will compile all coreutils and make them ready to use.
+This will compile all examples and make them ready to use.
+
+## 📦 Installation Scripts
+
+Naya includes comprehensive installation scripts for all platforms:
+
+### Automatic Installation
+
+**Linux/macOS:**
+```bash
+./install.sh [OPTIONS]
+```
+
+**Windows PowerShell:**
+```powershell
+.\install.ps1 [OPTIONS]
+```
+
+**Windows Command Prompt:**
+```cmd
+install.bat [OPTIONS]
+```
+
+### Installation Options
+
+| Option | Description |
+|---------|-------------|
+| `--dev` | Development mode (symlinks instead of copying) |
+| `--skip-neovim` | Skip Neovim configuration |
+| `--skip-deps` | Skip dependency installation |
+| `--help, -h` | Show help message |
+
+### Uninstallation
+
+**Linux/macOS:**
+```bash
+./uninstall.sh [OPTIONS]
+```
+
+**Windows:**
+```cmd
+uninstall.bat [OPTIONS]
+```
+
+### Manual Installation
+
+See [INSTALL.md](INSTALL.md) for detailed manual installation instructions.
+
+## 🔧 Development
+
+### Development Setup
+
+For developers working on Naya itself:
+
+```bash
+# Clone repository
+git clone <repository-url>
+cd naya
+
+# Install in development mode
+./install.sh --dev
+
+# This creates symlinks instead of copying files
+# Changes to the repository will be immediately available
+```
+
+### Project Structure
+
+```
+naya/
+├── naya.py              # Main compiler
+├── naya_build.py        # Build system and package manager
+├── lsp_server.py         # LSP server for IDE support
+├── install.sh            # Linux/macOS installer
+├── install.ps1           # Windows PowerShell installer
+├── install.bat            # Windows Command Prompt installer
+├── uninstall.sh          # Linux/macOS uninstaller
+├── uninstall.bat         # Windows uninstaller
+├── syntax/               # Neovim syntax highlighting
+├── snippets/             # Neovim code snippets
+├── ftdetect/             # Neovim filetype detection
+├── examples/             # Example programs
+├── SPEC.md               # Original language specification
+├── ENHANCED_SPEC.md      # Enhanced language specification
+├── INSTALL.md            # Detailed installation guide
+└── README.md             # This file
+```
+
+### Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Make your changes
+4. Test your changes: `./build.sh`
+5. Commit your changes: `git commit -m 'Add amazing feature'`
+6. Push to the branch: `git push origin feature/amazing-feature`
+7. Open a Pull Request
+
+### Testing
+
+```bash
+# Run all tests
+python3 naya_build.py test
+
+# Test specific example
+python3 naya.py examples/hello.naya hello
+./hello
+
+# Test LSP server
+python3 lsp_server.py --help
+```
 
 ## 🏗️ Compiler Architecture
 

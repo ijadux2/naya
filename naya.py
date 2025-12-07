@@ -33,17 +33,47 @@ class Lexer:
             "for",
             "return",
             "import",
+            "export",
+            "extern",
+            "defer",
+            "try",
+            "catch",
+            "match",
+            "struct",
+            "union",
+            "enum",
+            "type",
+            "comptime",
+            "const",
+            "var",
             "int",
             "uint",
             "uint8",
+            "uint16",
+            "uint32",
+            "uint64",
+            "int8",
+            "int16",
+            "int32",
+            "int64",
+            "float32",
+            "float64",
             "string",
             "bool",
             "void",
             "ptr",
+            "uptr",
+            "cptr",
             "true",
             "false",
+            "null",
             "break",
             "continue",
+            "Result",
+            "Ok",
+            "Err",
+            "Arena",
+            "Allocator",
         }
 
     def current_char(self) -> str:
@@ -116,6 +146,14 @@ class Lexer:
             self.column += 1
         return result
 
+    def read_operator(self) -> str:
+        result = ""
+        while self.current_char() and self.current_char() in "+-*/%=<>!&|^~":
+            result += self.current_char()
+            self.position += 1
+            self.column += 1
+        return result
+
     def tokenize(self) -> List[Token]:
         while self.position < len(self.source):
             self.skip_whitespace()
@@ -183,9 +221,32 @@ class Lexer:
                 self.column += 1
                 self.tokens.append(Token("COMMA", ",", line, column))
             elif char == ".":
-                self.position += 1
-                self.column += 1
-                self.tokens.append(Token("DOT", ".", line, column))
+                # Check if it's a range operator (..)
+                if self.peek_char() == ".":
+                    self.position += 2
+                    self.column += 2
+                    self.tokens.append(Token("RANGE", "..", line, column))
+                else:
+                    self.position += 1
+                    self.column += 1
+                    self.tokens.append(Token("DOT", ".", line, column))
+            elif char in "+-*/%=<>!&|^~":
+                operator = self.read_operator()
+                # Map common operators to specific tokens
+                if operator == "==":
+                    self.tokens.append(Token("EQ_EQ", "==", line, column))
+                elif operator == "!=":
+                    self.tokens.append(Token("NOT_EQ", "!=", line, column))
+                elif operator == "<=":
+                    self.tokens.append(Token("LTE", "<=", line, column))
+                elif operator == ">=":
+                    self.tokens.append(Token("GTE", ">=", line, column))
+                elif operator == "->":
+                    self.tokens.append(Token("ARROW", "->", line, column))
+                elif operator == "=>":
+                    self.tokens.append(Token("FAT_ARROW", "=>", line, column))
+                else:
+                    self.tokens.append(Token("OPERATOR", operator, line, column))
             else:
                 self.position += 1
                 self.column += 1
@@ -266,6 +327,105 @@ class Variable(ASTNode):
         self.name = name
 
 
+class Struct(ASTNode):
+    def __init__(self, name: str, fields: List["Field"], methods: List["Function"]):
+        self.name = name
+        self.fields = fields
+        self.methods = methods
+
+
+class Union(ASTNode):
+    def __init__(self, name: str, fields: List["Field"]):
+        self.name = name
+        self.fields = fields
+
+
+class Enum(ASTNode):
+    def __init__(self, name: str, values: List["EnumValue"], underlying_type: str = "int"):
+        self.name = name
+        self.values = values
+        self.underlying_type = underlying_type
+
+
+class Field(ASTNode):
+    def __init__(self, name: str, type: str, value: Optional[ASTNode] = None):
+        self.name = name
+        self.type = type
+        self.value = value
+
+
+class EnumValue(ASTNode):
+    def __init__(self, name: str, value: Optional[ASTNode] = None):
+        self.name = name
+        self.value = value
+
+
+class TypeDecl(ASTNode):
+    def __init__(self, name: str, type_def: ASTNode):
+        self.name = name
+        self.type_def = type_def
+
+
+class GenericParam(ASTNode):
+    def __init__(self, name: str, constraint: Optional[str] = None):
+        self.name = name
+        self.constraint = constraint
+
+
+class ComptimeExpr(ASTNode):
+    def __init__(self, expr: ASTNode):
+        self.expr = expr
+
+
+class TryExpr(ASTNode):
+    def __init__(self, expr: ASTNode, catch_handler: Optional["Function"] = None):
+        self.expr = expr
+        self.catch_handler = catch_handler
+
+
+class MatchExpr(ASTNode):
+    def __init__(self, expr: ASTNode, arms: List["MatchArm"]):
+        self.expr = expr
+        self.arms = arms
+
+
+class MatchArm(ASTNode):
+    def __init__(self, pattern: ASTNode, expr: ASTNode):
+        self.pattern = pattern
+        self.expr = expr
+
+
+class RangeExpr(ASTNode):
+    def __init__(self, start: ASTNode, end: ASTNode, inclusive: bool = False):
+        self.start = start
+        self.end = end
+        self.inclusive = inclusive
+
+
+class ForLoop(ASTNode):
+    def __init__(self, variable: str, iterable: ASTNode, body: Block):
+        self.variable = variable
+        self.iterable = iterable
+        self.body = body
+
+
+class DeferStmt(ASTNode):
+    def __init__(self, expr: ASTNode):
+        self.expr = expr
+
+
+class ExportDecl(ASTNode):
+    def __init__(self, function: Function, abi: str = "c"):
+        self.function = function
+        self.abi = abi
+
+
+class ExternBlock(ASTNode):
+    def __init__(self, abi: str, declarations: List[ASTNode]):
+        self.abi = abi
+        self.declarations = declarations
+
+
 class Parser:
     def __init__(self, tokens: List[Token]):
         self.tokens = tokens
@@ -295,6 +455,10 @@ class Parser:
     def parse_program(self) -> Program:
         imports = []
         functions = []
+        structs = []
+        unions = []
+        enums = []
+        type_decls = []
 
         while self.current_token() and self.current_token().type != "EOF":
             if (
@@ -307,11 +471,46 @@ class Parser:
                 and self.current_token().value == "func"
             ):
                 functions.append(self.parse_function())
+            elif (
+                self.current_token().type == "KEYWORD"
+                and self.current_token().value == "struct"
+            ):
+                structs.append(self.parse_struct())
+            elif (
+                self.current_token().type == "KEYWORD"
+                and self.current_token().value == "union"
+            ):
+                unions.append(self.parse_union())
+            elif (
+                self.current_token().type == "KEYWORD"
+                and self.current_token().value == "enum"
+            ):
+                enums.append(self.parse_enum())
+            elif (
+                self.current_token().type == "KEYWORD"
+                and self.current_token().value == "type"
+            ):
+                type_decls.append(self.parse_type_decl())
+            elif (
+                self.current_token().type == "KEYWORD"
+                and self.current_token().value == "export"
+            ):
+                functions.append(self.parse_export())
+            elif (
+                self.current_token().type == "KEYWORD"
+                and self.current_token().value == "extern"
+            ):
+                # Handle extern blocks
+                extern_block = self.parse_extern()
+                functions.extend(extern_block.declarations)
             else:
                 # Skip unknown tokens for now
                 self.consume()
 
-        return Program(imports, functions)
+        # Combine all declarations into functions for now
+        # In a full implementation, we'd have separate lists in Program
+        all_functions = functions + structs + unions + enums + type_decls
+        return Program(imports, all_functions)
 
     def parse_import(self) -> Import:
         self.consume("KEYWORD")  # import
@@ -403,9 +602,29 @@ class Parser:
             return self.parse_while()
         elif (
             self.current_token().type == "KEYWORD"
+            and self.current_token().value == "for"
+        ):
+            return self.parse_for()
+        elif (
+            self.current_token().type == "KEYWORD"
             and self.current_token().value == "if"
         ):
             return self.parse_if()
+        elif (
+            self.current_token().type == "KEYWORD"
+            and self.current_token().value == "match"
+        ):
+            return self.parse_match()
+        elif (
+            self.current_token().type == "KEYWORD"
+            and self.current_token().value == "try"
+        ):
+            return self.parse_try()
+        elif (
+            self.current_token().type == "KEYWORD"
+            and self.current_token().value == "defer"
+        ):
+            return self.parse_defer()
         elif (
             self.current_token().type == "IDENTIFIER"
             and self.peek_token()
@@ -438,19 +657,30 @@ class Parser:
         left = self.parse_call_or_member()
 
         # Handle binary operators
-        if (
-            self.current_token().type == "EQUALS"
-            and self.peek_token()
-            and self.peek_token().type == "EQUALS"
-        ):
-            self.consume("EQUALS")
-            self.consume("EQUALS")
+        if self.current_token().type == "EQ_EQ":
+            self.consume("EQ_EQ")
             right = self.parse_call_or_member()
             return BinaryOp(left, "==", right)
+        elif self.current_token().type == "NOT_EQ":
+            self.consume("NOT_EQ")
+            right = self.parse_call_or_member()
+            return BinaryOp(left, "!=", right)
+        elif self.current_token().type == "LTE":
+            self.consume("LTE")
+            right = self.parse_call_or_member()
+            return BinaryOp(left, "<=", right)
+        elif self.current_token().type == "GTE":
+            self.consume("GTE")
+            right = self.parse_call_or_member()
+            return BinaryOp(left, ">=", right)
         elif self.current_token().type == "EQUALS":
             self.consume("EQUALS")
             right = self.parse_call_or_member()
             return BinaryOp(left, "=", right)
+        elif self.current_token().type == "OPERATOR":
+            op = self.consume("OPERATOR").value
+            right = self.parse_call_or_member()
+            return BinaryOp(left, op, right)
 
         return left
 
@@ -519,6 +749,226 @@ class Parser:
         else:
             return Variable(f"{obj.name}.{member}")
 
+    def parse_struct(self) -> Struct:
+        self.consume("KEYWORD")  # struct
+        name = self.consume("IDENTIFIER").value
+        self.consume("LBRACE")
+        
+        fields = []
+        methods = []
+        
+        while self.current_token() and self.current_token().type != "RBRACE":
+            # Check if it's a method (func keyword)
+            if self.current_token().type == "KEYWORD" and self.current_token().value == "func":
+                methods.append(self.parse_function())
+            else:
+                # Parse field
+                field_name = self.consume("IDENTIFIER").value
+                self.consume("COLON")
+                field_type = self.consume().value  # Can be IDENTIFIER or KEYWORD
+                
+                value = None
+                if self.current_token().type == "EQUALS":
+                    self.consume("EQUALS")
+                    value = self.parse_expression()
+                
+                fields.append(Field(field_name, field_type, value))
+                
+                # Expect comma or end of field list
+                if self.current_token().type == "COMMA":
+                    self.consume("COMMA")
+        
+        self.consume("RBRACE")
+        return Struct(name, fields, methods)
+
+    def parse_union(self) -> Union:
+        self.consume("KEYWORD")  # union
+        name = self.consume("IDENTIFIER").value
+        self.consume("LBRACE")
+        
+        fields = []
+        
+        while self.current_token() and self.current_token().type != "RBRACE":
+            field_name = self.consume("IDENTIFIER").value
+            self.consume("COLON")
+            field_type = self.consume().value
+            
+            fields.append(Field(field_name, field_type))
+            
+            if self.current_token().type == "COMMA":
+                self.consume("COMMA")
+        
+        self.consume("RBRACE")
+        return Union(name, fields)
+
+    def parse_enum(self) -> Enum:
+        self.consume("KEYWORD")  # enum
+        name = self.consume("IDENTIFIER").value
+        
+        # Check for underlying type
+        underlying_type = "int"
+        if self.current_token().type == "LPAREN":
+            self.consume("LPAREN")
+            underlying_type = self.consume().value
+            self.consume("RPAREN")
+        
+        self.consume("LBRACE")
+        
+        values = []
+        while self.current_token() and self.current_token().type != "RBRACE":
+            value_name = self.consume("IDENTIFIER").value
+            
+            value = None
+            if self.current_token().type == "EQUALS":
+                self.consume("EQUALS")
+                value = self.parse_expression()
+            
+            values.append(EnumValue(value_name, value))
+            
+            if self.current_token().type == "COMMA":
+                self.consume("COMMA")
+        
+        self.consume("RBRACE")
+        return Enum(name, values, underlying_type)
+
+    def parse_type_decl(self) -> TypeDecl:
+        self.consume("KEYWORD")  # type
+        name = self.consume("IDENTIFIER").value
+        self.consume("EQUALS")
+        
+        # Parse the type definition
+        type_def = self.parse_expression()
+        
+        return TypeDecl(name, type_def)
+
+    def parse_export(self) -> ExportDecl:
+        self.consume("KEYWORD")  # export
+        
+        # Check for ABI specification
+        abi = "c"
+        if self.current_token().type == "STRING":
+            abi = self.consume("STRING").value
+            abi = abi.strip('"')
+        
+        function = self.parse_function()
+        return ExportDecl(function, abi)
+
+    def parse_extern(self) -> ExternBlock:
+        self.consume("KEYWORD")  # extern
+        
+        # Check for ABI specification
+        abi = "c"
+        if self.current_token().type == "STRING":
+            abi = self.consume("STRING").value
+            abi = abi.strip('"')
+        
+        self.consume("LBRACE")
+        
+        declarations = []
+        while self.current_token() and self.current_token().type != "RBRACE":
+            # Parse function declarations (no body)
+            if self.current_token().type == "KEYWORD" and self.current_token().value == "func":
+                func = self.parse_function_extern()
+                declarations.append(func)
+            else:
+                self.consume()
+        
+        self.consume("RBRACE")
+        return ExternBlock(abi, declarations)
+
+    def parse_function_extern(self) -> Function:
+        self.consume("KEYWORD")  # func
+        name = self.consume("IDENTIFIER").value
+        self.consume("LPAREN")
+
+        params = []
+        if self.current_token().type != "RPAREN":
+            params.append(self.parse_param())
+            while self.current_token().type == "COMMA":
+                self.consume("COMMA")
+                params.append(self.parse_param())
+
+        self.consume("RPAREN")
+        self.consume("COLON")
+        return_type = self.consume().value
+
+        # Extern functions have no body
+        return Function(name, params, return_type, Block([]))
+
+    def parse_match(self) -> MatchExpr:
+        self.consume("KEYWORD")  # match
+        expr = self.parse_expression()
+        self.consume("LBRACE")
+        
+        arms = []
+        while self.current_token() and self.current_token().type != "RBRACE":
+            pattern = self.parse_expression()
+            
+            # Check for fat arrow
+            if self.current_token().type == "FAT_ARROW":
+                self.consume("FAT_ARROW")
+            else:
+                self.consume("ARROW")  # Support regular arrow too
+            
+            arm_expr = self.parse_expression()
+            
+            arms.append(MatchArm(pattern, arm_expr))
+            
+            if self.current_token().type == "COMMA":
+                self.consume("COMMA")
+        
+        self.consume("RBRACE")
+        return MatchExpr(expr, arms)
+
+    def parse_for(self) -> ForLoop:
+        self.consume("KEYWORD")  # for
+        
+        # Parse variable name
+        variable = self.consume("IDENTIFIER").value
+        
+        # Check if it's a range loop or enumeration
+        if self.current_token().type == "KEYWORD" and self.current_token().value == "in":
+            self.consume("KEYWORD")  # in
+            
+            # Check for enumerate
+            if self.current_token().type == "IDENTIFIER" and self.current_token().value == "enumerate":
+                self.consume("IDENTIFIER")  # enumerate
+                self.consume("LPAREN")
+                iterable = self.parse_expression()
+                self.consume("RPAREN")
+                # For now, handle as regular loop
+            else:
+                iterable = self.parse_expression()
+        else:
+            # Traditional for loop syntax
+            iterable = self.parse_expression()
+        
+        body = self.parse_block()
+        return ForLoop(variable, iterable, body)
+
+    def parse_range(self) -> RangeExpr:
+        start = self.parse_expression()
+        self.consume("RANGE")
+        end = self.parse_expression()
+        return RangeExpr(start, end, False)
+
+    def parse_try(self) -> TryExpr:
+        self.consume("KEYWORD")  # try
+        expr = self.parse_expression()
+        
+        catch_handler = None
+        if self.current_token().type == "KEYWORD" and self.current_token().value == "catch":
+            self.consume("KEYWORD")
+            # Parse catch handler
+            catch_handler = self.parse_function()
+        
+        return TryExpr(expr, catch_handler)
+
+    def parse_defer(self) -> DeferStmt:
+        self.consume("KEYWORD")  # defer
+        expr = self.parse_expression()
+        return DeferStmt(expr)
+
 
 class CodeGenerator:
     def __init__(self):
@@ -578,6 +1028,40 @@ class CodeGenerator:
             self.generate_return(stmt)
         elif isinstance(stmt, Call):
             self.output.append(f"{self.indent()}{self.generate_expression(stmt)};")
+        elif isinstance(stmt, DeferStmt):
+            # Generate defer as a comment for now (needs proper implementation)
+            defer_code = self.generate_expression(stmt.expr)
+            self.output.append(f"{self.indent()}// defer: {defer_code};")
+        elif isinstance(stmt, TryExpr):
+            # Generate try-catch
+            try_code = self.generate_expression(stmt.expr)
+            if stmt.catch_handler:
+                self.output.append(f"{self.indent()}// try {{ {try_code} }} catch {{ ... }}")
+            else:
+                self.output.append(f"{self.indent()}// try {{ {try_code} }}")
+        elif isinstance(stmt, MatchExpr):
+            # Generate match as switch statement
+            match_code = self.generate_match(stmt)
+            self.output.append(f"{self.indent()}{match_code}")
+        elif isinstance(stmt, ForLoop):
+            # Generate for loop
+            for_code = self.generate_for_loop(stmt)
+            self.output.append(f"{self.indent()}{for_code}")
+        elif isinstance(stmt, Struct):
+            # Generate struct definition
+            self.generate_struct(stmt)
+        elif isinstance(stmt, Union):
+            # Generate union definition
+            self.generate_union(stmt)
+        elif isinstance(stmt, Enum):
+            # Generate enum definition
+            self.generate_enum(stmt)
+        elif isinstance(stmt, TypeDecl):
+            # Generate type declaration
+            self.generate_type_decl(stmt)
+        elif isinstance(stmt, ExportDecl):
+            # Generate export declaration
+            self.generate_export(stmt)
         else:
             self.output.append(f"{self.indent()}{self.generate_expression(stmt)};")
 
@@ -680,6 +1164,15 @@ class CodeGenerator:
                 return "1" if expr.value else "0"
             else:
                 return str(expr.value)
+        elif isinstance(expr, RangeExpr):
+            start = self.generate_expression(expr.start)
+            end = self.generate_expression(expr.end)
+            return f"({start}..{end})"  # Will be handled by for loop generation
+        elif isinstance(expr, MatchExpr):
+            return "match_expression"  # Handled separately
+        elif isinstance(expr, TryExpr):
+            try_expr = self.generate_expression(expr.expr)
+            return f"try({try_expr})"
         else:
             return str(expr)
 
@@ -713,11 +1206,113 @@ class CodeGenerator:
         else:
             return self.generate_expression(block)
 
+    def generate_match(self, match_expr: MatchExpr) -> str:
+        expr_str = self.generate_expression(match_expr.expr)
+        self.output.append(f"{self.indent()}switch ({expr_str}) {{")
+        self.indent_level += 1
+        
+        for arm in match_expr.arms:
+            pattern_str = self.generate_expression(arm.pattern)
+            arm_expr_str = self.generate_expression(arm.expr)
+            self.output.append(f"{self.indent()}case {pattern_str}: {arm_expr_str}; break;")
+        
+        self.indent_level -= 1
+        self.output.append(f"{self.indent()}}}")
+        return f"switch ({expr_str}) {{ ... }}"
+
+    def generate_for_loop(self, for_loop: ForLoop) -> str:
+        # Handle range loops
+        if isinstance(for_loop.iterable, RangeExpr):
+            start = self.generate_expression(for_loop.iterable.start)
+            end = self.generate_expression(for_loop.iterable.end)
+            
+            self.output.append(f"{self.indent()}for (int {for_loop.variable} = {start}; {for_loop.variable} < {end}; {for_loop.variable}++) {{")
+            self.indent_level += 1
+            
+            for stmt in for_loop.body.statements:
+                self.generate_statement(stmt)
+            
+            self.indent_level -= 1
+            self.output.append(f"{self.indent()}}}")
+            return f"for (int {for_loop.variable} = {start}; {for_loop.variable} < {end}; {for_loop.variable}++) {{ ... }}"
+        else:
+            # Handle array iteration
+            iterable_str = self.generate_expression(for_loop.iterable)
+            self.output.append(f"{self.indent()}// For loop over {iterable_str}")
+            self.output.append(f"{self.indent()}for (int _i = 0; _i < len({iterable_str}); _i++) {{")
+            self.indent_level += 1
+            self.output.append(f"{self.indent()}auto {for_loop.variable} = {iterable_str}[_i];")
+            
+            for stmt in for_loop.body.statements:
+                self.generate_statement(stmt)
+            
+            self.indent_level -= 1
+            self.output.append(f"{self.indent()}}}")
+            return f"for loop over {iterable_str}"
+
+    def generate_struct(self, struct: Struct):
+        self.output.append(f"{self.indent()}typedef struct {{")
+        self.indent_level += 1
+        
+        for field in struct.fields:
+            field_type = self.map_type(field.type)
+            self.output.append(f"{self.indent()}{field_type} {field.name};")
+        
+        self.indent_level -= 1
+        self.output.append(f"{self.indent()}}} {struct.name};")
+        self.output.append("")
+
+    def generate_union(self, union: Union):
+        self.output.append(f"{self.indent()}typedef union {{")
+        self.indent_level += 1
+        
+        for field in union.fields:
+            field_type = self.map_type(field.type)
+            self.output.append(f"{self.indent()}{field_type} {field.name};")
+        
+        self.indent_level -= 1
+        self.output.append(f"{self.indent()}}} {union.name};")
+        self.output.append("")
+
+    def generate_enum(self, enum: Enum):
+        underlying_type = self.map_type(enum.underlying_type)
+        self.output.append(f"{self.indent()}typedef enum {{")
+        self.indent_level += 1
+        
+        for i, value in enumerate(enum.values):
+            if value.value:
+                value_str = self.generate_expression(value.value)
+                self.output.append(f"{self.indent()}{value.name} = {value_str},")
+            else:
+                self.output.append(f"{self.indent()}{value.name},")
+        
+        self.indent_level -= 1
+        self.output.append(f"{self.indent()}}} {enum.name};")
+        self.output.append("")
+
+    def generate_type_decl(self, type_decl: TypeDecl):
+        type_def_str = self.generate_expression(type_decl.type_def)
+        self.output.append(f"{self.indent()}typedef {type_def_str} {type_decl.name};")
+        self.output.append("")
+
+    def generate_export(self, export_decl: ExportDecl):
+        # Generate the function with export attribute
+        self.generate_function(export_decl.function)
+
     def map_type(self, naya_type: str) -> str:
         type_map = {
             "int": "int",
             "uint": "unsigned long",
             "uint8": "unsigned char",
+            "uint16": "unsigned short",
+            "uint32": "unsigned int",
+            "uint64": "unsigned long long",
+            "int8": "char",
+            "int16": "short",
+            "int32": "int",
+            "int64": "long long",
+            "float32": "float",
+            "float64": "double",
             "string": "char*",
             "bool": "int",
             "void": "void",
