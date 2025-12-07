@@ -229,30 +229,6 @@ class ContentLoader {
         }
     }
 
-    setupTabs() {
-        const tabs = document.querySelectorAll('.tab');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const tabName = tab.getAttribute('data-tab');
-                this.switchTab(tabName);
-            });
-        });
-    }
-
-    switchTab(tabName) {
-        // Update tab buttons
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.classList.remove('active');
-        });
-        document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
-
-        // Update tab content
-        document.querySelectorAll('.tab-content').forEach(content => {
-            content.classList.remove('active');
-        });
-        document.querySelector(`[data-content="${tabName}"]`).classList.add('active');
-    }
-
     // Playground specific functions
     loadExample(exampleName) {
         const examples = {
@@ -362,48 +338,7 @@ func main(): int {
         this.updateLineNumbers();
     }
 
-    async runPlaygroundCode(code, outputContainer) {
-        outputContainer.innerHTML = '<div class="spinner"></div>';
-        
-        try {
-            // Simulate compilation delay
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            // Simulate code execution
-            const output = this.simulateCodeExecution(code);
-            
-            outputContainer.innerHTML = `
-                <div class="code-output">
-                    <div class="output-header">
-                        <span class="output-status success">✓ Compiled Successfully</span>
-                        <span class="output-time">${new Date().toLocaleTimeString()}</span>
-                    </div>
-                    <pre><code class="language-naya">${output}</code></pre>
-                </div>
-            `;
-        } catch (error) {
-            outputContainer.innerHTML = `
-                <div class="alert alert-error">
-                    <strong>Compilation Error:</strong> ${error.message}
-                </div>
-            `;
-        }
-    }
 
-    simulateCodeExecution(code) {
-        // Simple simulation for demo purposes
-        if (code.includes('print')) {
-            return 'Hello, Naya!';
-        } else if (code.includes('main')) {
-            return 'Program executed successfully.';
-        } else if (code.includes('Vector')) {
-            return 'Vector operations completed successfully.\nNumber 0: 10\nNumber 1: 20\nNumber 2: 30';
-        } else if (code.includes('int8') || code.includes('int32') || code.includes('float64')) {
-            return 'Type declarations processed successfully.\nAll variables initialized correctly.';
-        } else {
-            return 'Code compiled and executed successfully.';
-        }
-    }
 
     clearOutput() {
         document.getElementById('output').innerHTML = `
