@@ -616,13 +616,17 @@ See [INSTALL.md](INSTALL.md) for detailed manual installation instructions.
 
 ## 🔧 Development
 
+### Repository
+
+**GitHub Repository**: [https://github.com/ijadux2/naya](https://github.com/ijadux2/naya)
+
 ### Development Setup
 
 For developers working on Naya itself:
 
 ```bash
 # Clone repository
-git clone <repository-url>
+git clone https://github.com/ijadux2/naya.git
 cd naya
 
 # Install in development mode
@@ -631,6 +635,139 @@ cd naya
 # This creates symlinks instead of copying files
 # Changes to the repository will be immediately available
 ```
+
+### Contributing
+
+We welcome contributions! Here's how to get started:
+
+1. **Fork the repository**
+   ```bash
+   git clone https://github.com/ijadux2/naya.git
+   ```
+
+2. **Create a feature branch**
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+
+3. **Make your changes**
+   - Edit the compiler, build system, or documentation
+   - Add new language features
+   - Fix bugs or improve performance
+   - Add examples or tests
+
+4. **Test your changes**
+   ```bash
+   # Test the compiler
+   python3 naya.py examples/hello.naya test
+   ./test
+   
+   # Run build system tests
+   python3 naya_build.py test
+   ```
+
+5. **Commit your changes**
+   ```bash
+   git add .
+   git commit -m "Add amazing feature: description of changes"
+   ```
+
+6. **Push to your fork**
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+
+7. **Create a Pull Request**
+   - Go to [GitHub](https://github.com/ijadux2/naya/pulls)
+   - Click "New Pull Request"
+   - Fill in the details and submit
+
+### Development Areas
+
+#### **Compiler Development**
+- **Language Features**: Add new types, control flow, or memory management
+- **Code Generation**: Improve C code output and optimization
+- **Error Handling**: Enhance error messages and recovery
+- **Performance**: Optimize compilation speed and runtime performance
+
+#### **Build System**
+- **Package Management**: Add dependency resolution and versioning
+- **Cross-Platform**: Improve Windows, macOS, and Linux support
+- **Integration**: Better IDE and editor integration
+
+#### **LSP Server**
+- **Language Features**: Support new language constructs in LSP
+- **Code Completion**: Improve suggestions and context awareness
+- **Diagnostics**: Better error detection and suggestions
+- **Performance**: Optimize for large codebases
+
+#### **Documentation**
+- **Language Reference**: Keep documentation up-to-date with language changes
+- **Examples**: Add practical examples for new features
+- **Tutorials**: Create learning resources for different skill levels
+
+#### **Website**
+- **Content**: Improve documentation and examples
+- **Design**: Enhance user experience and accessibility
+- **Performance**: Optimize loading times and interactions
+
+### Project Structure
+
+```
+naya/
+├── naya.py              # Main compiler
+├── naya_build.py        # Build system and package manager
+├── lsp_server.py         # LSP server for IDE support
+├── install.sh            # Linux/macOS installer
+├── install.ps1           # Windows PowerShell installer
+├── install.bat            # Windows Command Prompt installer
+├── uninstall.sh          # Linux/macOS uninstaller
+├── uninstall.bat         # Windows uninstaller
+├── syntax/               # Neovim syntax highlighting
+├── snippets/             # Neovim code snippets
+├── ftdetect/            # Neovim filetype detection
+├── examples/             # Example programs
+├── content/              # Website content
+├── css/                  # Website styles
+├── js/                    # Website JavaScript
+├── assets/                # Website assets
+├── SPEC.md               # Original language specification
+├── ENHANCED_SPEC.md      # Enhanced language specification
+├── README.md             # This file
+└── build.sh              # Build script for examples
+```
+
+### Code Style Guidelines
+
+- **Follow existing patterns** when modifying code
+- **Add comments** for complex or non-obvious logic
+- **Use meaningful variable and function names**
+- **Keep functions small and focused** where possible
+- **Write tests** for new features and bug fixes
+
+### Testing
+
+```bash
+# Run all tests
+python3 naya_build.py test
+
+# Test specific example
+python3 naya.py examples/hello.naya test
+./test
+
+# Test LSP server
+python3 lsp_server.py --help
+```
+
+### Issue Reporting
+
+- **Bug Reports**: Use GitHub Issues with detailed reproduction steps
+- **Feature Requests**: Open an issue with the "enhancement" label
+- **Documentation Issues**: Report any errors or unclear documentation
+
+### License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ### Project Structure
 
