@@ -1,107 +1,169 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Naya Programming Language</title>
-    <link rel="stylesheet" href="css/catppuccin-mocha.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link rel="stylesheet" href="css/catppuccin-mocha.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <img src="assets/logo.svg" alt="Naya" class="logo">
-                <span class="brand-text">Naya</span>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="#home" class="nav-link active">Home</a></li>
-                <li><a href="https://github.com/ijadux2/naya" class="nav-link">GitHub</a></li>
-                <li><a href="https://github.com/ijadux2/naya" class="nav-link">GitHub</a></li>
-                <li><a href="https://github.com/ijadux2/naya" class="nav-link">GitHub</a></li>
-                <li><a href="https://github.com/ijadux2/naya" class="nav-link">GitHub</a></li>
-                <li><a href="https://github.com/ijadux2/naya" class="nav-link">GitHub</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#installation" class="nav-link">Installation</a></li>
-                <li><a href="#documentation" class="nav-link">Documentation</a></li>
-                <li><a href="#examples" class="nav-link">Examples</a></li>
-                <li><a href="#playground" class="nav-link">Playground</a></li>
-            </ul>
-            <button class="theme-toggle" id="themeToggle">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 8.794z"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v2m0 16v2M4.223 5.636l1.414 1.414m11.314 11.314l1.414 1.414M20.354 15.354l-1.414-1.414M5.636 20.354l-1.414-1.414"></path>
-                </svg>
-            </button>
+      <div class="nav-container">
+        <div class="nav-brand">
+          <img src="assets/logo.svg" alt="Naya" class="logo" />
+          <span class="brand-text">Naya</span>
         </div>
+        <ul class="nav-menu">
+          <li><a href="#home" class="nav-link active">Home</a></li>
+          <li>
+            <a href="https://github.com/ijadux2/naya" class="nav-link"
+              >GitHub</a
+            >
+          </li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#installation" class="nav-link">Installation</a></li>
+          <li><a href="#documentation" class="nav-link">Documentation</a></li>
+          <li><a href="#examples" class="nav-link">Examples</a></li>
+          <li><a href="#playground" class="nav-link">Playground</a></li>
+        </ul>
+        <button class="theme-toggle" id="themeToggle">
+          <svg
+            class="icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 8.794z"
+            ></path>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 2v2m0 16v2M4.223 5.636l1.414 1.414m11.314 11.314l1.414 1.414M20.354 15.354l-1.414-1.414M5.636 20.354l-1.414-1.414"
+            ></path>
+          </svg>
+        </button>
+      </div>
     </nav>
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- Hero Section -->
-        <section id="home" class="section hero">
-            <div class="container">
-                <div class="hero-content">
-                    <div class="hero-text">
-                        <h1 class="hero-title">
-                            <span class="gradient-text">Naya</span>
-                            <br>Programming Language
-                        </h1>
-                        <p class="hero-subtitle">
-                            Systems programming with Zig-like power and bash-like simplicity
-                        </p>
-                        <div class="hero-features">
-                            <div class="feature-badge">
-                                <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M13 2.05v2.02c3.95.49 7 3.85 7 7.93v2c0 1.08-3.05 7.44-7 7.93v2.02l5-5-5-5z"/>
-                                </svg>
-                                <span>Zero-Cost Abstractions</span>
-                            </div>
-                            <div class="feature-badge">
-                                <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                </svg>
-                                <span>Memory Safety</span>
-                            </div>
-                            <div class="feature-badge">
-                                <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-1.4-1.4-6 6 6 6 1.4-1.4z"/>
-                                </svg>
-                                <span>C ABI Compatible</span>
-                            </div>
-                        </div>
-                        <div class="hero-actions">
-                            <button class="btn btn-primary" onclick="loadSection('installation')">
-                                Get Started
-                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                                </svg>
-                            </button>
-                            <button class="btn btn-secondary" onclick="loadSection('playground')">
-                                Try Online
-                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="hero-visual">
-                        <div class="code-window">
-                            <div class="window-header">
-                                <div class="window-controls">
-                                    <span class="control control-close"></span>
-                                    <span class="control control-minimize"></span>
-                                    <span class="control control-maximize"></span>
-                                </div>
-                                <div class="window-title">main.naya</div>
-                            </div>
-                            <div class="code-content">
-                                <pre><code class="language-naya">func main(): int {
+      <!-- Hero Section -->
+      <section id="home" class="section hero">
+        <div class="container">
+          <div class="hero-content">
+            <div class="hero-text">
+              <h1 class="hero-title">
+                <span class="gradient-text">Naya</span>
+                <br />Programming Language
+              </h1>
+              <p class="hero-subtitle">
+                Systems programming with Zig-like power and bash-like simplicity
+              </p>
+              <div class="hero-features">
+                <div class="feature-badge">
+                  <svg
+                    class="badge-icon"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M13 2.05v2.02c3.95.49 7 3.85 7 7.93v2c0 1.08-3.05 7.44-7 7.93v2.02l5-5-5-5z"
+                    />
+                  </svg>
+                  <span>Zero-Cost Abstractions</span>
+                </div>
+                <div class="feature-badge">
+                  <svg
+                    class="badge-icon"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                    />
+                  </svg>
+                  <span>Memory Safety</span>
+                </div>
+                <div class="feature-badge">
+                  <svg
+                    class="badge-icon"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-1.4-1.4-6 6 6 6 1.4-1.4z"
+                    />
+                  </svg>
+                  <span>C ABI Compatible</span>
+                </div>
+              </div>
+              <div class="hero-actions">
+                <button
+                  class="btn btn-primary"
+                  onclick="loadSection('installation')"
+                >
+                  Get Started
+                  <svg
+                    class="btn-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 7l5 5m0 0l-5 5m5-5H6"
+                    />
+                  </svg>
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  onclick="loadSection('playground')"
+                >
+                  Try Online
+                  <svg
+                    class="btn-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="hero-visual">
+              <div class="code-window">
+                <div class="window-header">
+                  <div class="window-controls">
+                    <span class="control control-close"></span>
+                    <span class="control control-minimize"></span>
+                    <span class="control control-maximize"></span>
+                  </div>
+                  <div class="window-title">main.naya</div>
+                </div>
+                <div class="code-content">
+                  <pre><code class="language-naya">func main(): int {
     player: Player = {
         position = Vector(float64){x = 400.0, y = 300.0},
         velocity = Vector(float64){x = 0.0, y = 0.0},
@@ -116,69 +178,70 @@
     
     return 0
 }</code></pre>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+              </div>
             </div>
-        </section>
-
-        <!-- Dynamic Content Container -->
-        <div id="content-container">
-            <!-- Content will be loaded here dynamically -->
+          </div>
         </div>
+      </section>
+
+      <!-- Dynamic Content Container -->
+      <div id="content-container">
+        <!-- Content will be loaded here dynamically -->
+      </div>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Language</h4>
-                    <ul>
-                        <li><a href="#about">About Naya</a></li>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#specification">Language Spec</a></li>
-                        <li><a href="#roadmap">Roadmap</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#documentation">Documentation</a></li>
-                        <li><a href="#examples">Examples</a></li>
-                        <li><a href="#playground">Playground</a></li>
-                        <li><a href="#tutorials">Tutorials</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Community</h4>
-                    <ul>
-                        <li><a href="#community">GitHub</a></li>
-                        <li><a href="#discord">Discord</a></li>
-                        <li><a href="#reddit">Reddit</a></li>
-                        <li><a href="#twitter">Twitter</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Contribute</h4>
-                    <ul>
-                        <li><a href="#contributing">Contributing</a></li>
-                        <li><a href="#issues">Report Issues</a></li>
-                        <li><a href="#pull-requests">Pull Requests</a></li>
-                        <li><a href="#sponsors">Sponsors</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Naya Programming Language. Licensed under MIT.</p>
-                <p>Built with ❤️ using Catppuccin Mocha theme</p>
-            </div>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4>Language</h4>
+            <ul>
+              <li><a href="#about">About Naya</a></li>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#specification">Language Spec</a></li>
+              <li><a href="#roadmap">Roadmap</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="#documentation">Documentation</a></li>
+              <li><a href="#examples">Examples</a></li>
+              <li><a href="#playground">Playground</a></li>
+              <li><a href="#tutorials">Tutorials</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Community</h4>
+            <ul>
+              <li><a href="#community">GitHub</a></li>
+              <li><a href="#discord">Discord</a></li>
+              <li><a href="#reddit">Reddit</a></li>
+              <li><a href="#twitter">Twitter</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Contribute</h4>
+            <ul>
+              <li><a href="#contributing">Contributing</a></li>
+              <li><a href="#issues">Report Issues</a></li>
+              <li><a href="#pull-requests">Pull Requests</a></li>
+              <li><a href="#sponsors">Sponsors</a></li>
+            </ul>
+          </div>
         </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 Naya Programming Language. Licensed under MIT.</p>
+          <p>Built with ❤️ using Catppuccin Mocha theme</p>
+        </div>
+      </div>
     </footer>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="js/main.js"></script>
-</body>
+  </body>
 </html>
+
