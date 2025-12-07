@@ -14,12 +14,339 @@
         </div>
 
         <div class="tab-content active" data-content="basics">
-            <div class="example-grid">
+        <div class="example-grid">
                 <div class="example-card">
                     <div class="example-header">
-                        <h3>Hello World</h3>
+                        <h3>Core Language Features</h3>
                         <span class="difficulty easy">Easy</span>
                     </div>
+                    <div class="example-description">
+                        <p>Essential Naya language features every developer should know.</p>
+                        <div class="example-features">
+                            <span class="feature-tag">Functions</span>
+                            <span class="feature-tag">Variables</span>
+                            <span class="feature-tag">Control Flow</span>
+                        </div>
+                    </div>
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>basics.naya</span>
+                            <button class="copy-btn" data-code="func main(): int {
+    // Function with parameters and return value
+    name: string = \"Naya\"
+    age: int = 25
+    
+    // Basic arithmetic
+    result: int = age * 2
+    
+    // String formatting
+    message: string = \"Hello, {name}! You are {age} years old.\\n\"
+    
+    // System call
+    syscall.write(1, message, message.len)
+    
+    return result
+}" onclick="copyToClipboard(this)">
+                                <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 4H7c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h8c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1z"/>
+                                </svg>
+                            Copy
+                        </div>
+                        <pre><code class="language-naya">func main(): int {
+    // Function with parameters and return value
+    name: string = "Naya"
+    age: int = 25
+    
+    // Basic arithmetic
+    result: int = age * 2
+    
+    // String formatting
+    message: string = "Hello, {name}! You are {age} years old.\n"
+    
+    // System call
+    syscall.write(1, message, message.len)
+    
+    return result
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-header">
+                        <h3>Memory Management</h3>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <div class="example-description">
+                        <p>Demonstrates safe memory management patterns in Naya.</p>
+                        <div class="example-features">
+                            <span class="feature-tag">Stack Allocation</span>
+                            <span class="feature-tag">Heap Allocation</span>
+                            <span class="feature-tag">Arena Allocation</span>
+                        </div>
+                    </div>
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>memory.naya</span>
+                            <button class="copy-btn" data-code="func main(): int {
+    // Stack allocation - automatic cleanup
+    stack_buffer: [1024]uint8  // Stack allocated
+    
+    // Use stack buffer
+    for i in 0..1024 {
+        stack_buffer[i] = i % 256
+    }
+    
+    // Heap allocation with defer cleanup
+    heap_data: []int = alloc([]int, 100)
+    defer free(heap_data.ptr)
+    
+    // Use heap data
+    for i in 0..100 {
+        heap_data[i] = i * i
+    }
+    
+    // Arena allocation - bulk cleanup
+    arena: Arena = {}
+    defer arena.deinit()
+    
+    temp_data: []string = arena.alloc([]string, 50)
+    
+    // Use arena data
+    for i in 0..50 {
+        temp_data[i] = \"Item {i}\"
+    }
+    
+    print(\"Memory management completed successfully\")
+    return 0
+}" onclick="copyToClipboard(this)">
+                                <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 4H7c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h8c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1z"/>
+                                </svg>
+                            Copy
+                        </div>
+                        <pre><code class="language-naya">func main(): int {
+    // Stack allocation - automatic cleanup
+    stack_buffer: [1024]uint8  // Stack allocated
+    
+    // Use stack buffer
+    for i in 0..1024 {
+        stack_buffer[i] = i % 256
+    }
+    
+    // Heap allocation with defer cleanup
+    heap_data: []int = alloc([]int, 100)
+    defer free(heap_data.ptr)
+    
+    // Use heap data
+    for i in 0..100 {
+        heap_data[i] = i * i
+    }
+    
+    // Arena allocation - bulk cleanup
+    arena: Arena = {}
+    defer arena.deinit()
+    
+    temp_data: []string = arena.alloc([]string, 50)
+    
+    // Use arena data
+    for i in 0..50 {
+        temp_data[i] = "Item {i}"
+    }
+    
+    print("Memory management completed successfully")
+    return 0
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-header">
+                        <h3>Error Handling</h3>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <div class="example-description">
+                        <p>Robust error handling using Result types and pattern matching.</p>
+                        <div class="example-features">
+                            <span class="feature-tag">Result Types</span>
+                            <span class="feature-tag">Try-Catch</span>
+                            <span class="feature-tag">Pattern Matching</span>
+                        </div>
+                    </div>
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>error_handling.naya</span>
+                            <button class="copy-btn" data-code="import sys
+
+// Custom error type
+FileError: type = enum {
+    NotFound
+    PermissionDenied
+    IOError
+}
+
+// Result type for error handling
+Result: type = enum(T, E) {
+    Ok(T)
+    Err(E)
+}
+
+// Safe file reading function
+func read_file_safely(path: string): Result[string, FileError] {
+    file: int = sys.open(path, sys.O_RDONLY)
+    
+    if file < 0 {
+        return Err(FileError.NotFound)
+    }
+    
+    defer sys.close(file)
+    
+    buffer: [4096]uint8
+    bytes_read: uint = sys.read(file, buffer, 4096)
+    
+    if bytes_read == 0 {
+        return Err(FileError.IOError)
+    }
+    
+    return Ok(string.from_bytes(buffer[0:bytes_read]))
+}
+
+// Safe division function
+func safe_divide(a: int, b: int): Result[int, string] {
+    if b == 0 {
+        return Err(\"Division by zero\")
+    }
+    
+    return Ok(a / b)
+}
+
+func main(): int {
+    // Example 1: Safe file reading
+    match read_file_safely(\"config.txt\") {
+        Ok(content) => {
+            print(\"File content: {content}\")
+        },
+        Err(FileError.NotFound) => {
+            print(\"Error: File not found\")
+        },
+        Err(FileError.PermissionDenied) => {
+            print(\"Error: Permission denied\")
+        },
+        Err(FileError.IOError) => {
+            print(\"Error: I/O error\")
+        }
+    }
+    
+    // Example 2: Safe arithmetic
+    match safe_divide(10, 2) {
+        Ok(result) => {
+            print(\"10 / 2 = {result}\")
+        },
+        Err(error) => {
+            print(\"Division error: {error}\")
+        }
+    }
+    
+    // Example 3: Try-catch with pattern matching
+    result: int = try safe_divide(20, 4) or 0
+    
+    match result {
+        0 => print(\"Division successful\"),
+        _ => print(\"Division failed\")
+    }
+    
+    return 0
+}" onclick="copyToClipboard(this)">
+                                <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 4H7c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h8c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1z"/>
+                                </svg>
+                            Copy
+                        </div>
+                        <pre><code class="language-naya">import sys
+
+// Custom error type
+FileError: type = enum {
+    NotFound
+    PermissionDenied
+    IOError
+}
+
+// Result type for error handling
+Result: type = enum(T, E) {
+    Ok(T)
+    Err(E)
+}
+
+// Safe file reading function
+func read_file_safely(path: string): Result[string, FileError] {
+    file: int = sys.open(path, sys.O_RDONLY)
+    
+    if file < 0 {
+        return Err(FileError.NotFound)
+    }
+    
+    defer sys.close(file)
+    
+    buffer: [4096]uint8
+    bytes_read: uint = sys.read(file, buffer, 4096)
+    
+    if bytes_read == 0 {
+        return Err(FileError.IOError)
+    }
+    
+    return Ok(string.from_bytes(buffer[0:bytes_read]))
+}
+
+// Safe division function
+func safe_divide(a: int, b: int): Result[int, string] {
+    if b == 0 {
+        return Err("Division by zero")
+    }
+    
+    return Ok(a / b)
+}
+
+func main(): int {
+    // Example 1: Safe file reading
+    match read_file_safely("config.txt") {
+        Ok(content) => {
+            print("File content: {content}")
+        },
+        Err(FileError.NotFound) => {
+            print("Error: File not found")
+        },
+        Err(FileError.PermissionDenied) => {
+            print("Error: Permission denied")
+        },
+        Err(FileError.IOError) => {
+            print("Error: I/O error")
+        }
+    }
+    
+    // Example 2: Safe arithmetic
+    match safe_divide(10, 2) {
+        Ok(result) => {
+            print("10 / 2 = {result}")
+        },
+        Err(error) => {
+            print("Division error: {error}")
+        }
+    }
+    
+    // Example 3: Try-catch with pattern matching
+    result: int = try safe_divide(20, 4) or 0
+    
+    match result {
+        0 => print("Division successful"),
+        _ => print("Division failed")
+    }
+    
+    return 0
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
                     <div class="example-description">
                         <p>The classic "Hello, World!" program in Naya.</p>
                         <div class="example-features">

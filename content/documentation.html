@@ -2,31 +2,22 @@
 <div class="container">
     <div class="section-header">
         <h1>Documentation</h1>
-        <p class="section-subtitle">Complete language reference and guides</p>
+        <p class="section-subtitle">Complete language reference and technical specifications</p>
     </div>
 
     <div class="doc-navigation">
         <div class="doc-sidebar">
             <div class="doc-section">
-                <h3>Getting Started</h3>
-                <ul>
-                    <li><a href="#quickstart" class="doc-link active">Quick Start</a></li>
-                    <li><a href="#installation" class="doc-link">Installation</a></li>
-                    <li><a href="#first-program" class="doc-link">First Program</a></li>
-                    <li><a href="#build-system" class="doc-link">Build System</a></li>
-                </ul>
-            </div>
-            
-            <div class="doc-section">
                 <h3>Language Reference</h3>
                 <ul>
-                    <li><a href="#types" class="doc-link">Type System</a></li>
+                    <li><a href="#types" class="doc-link active">Type System</a></li>
                     <li><a href="#functions" class="doc-link">Functions</a></li>
                     <li><a href="#control-flow" class="doc-link">Control Flow</a></li>
                     <li><a href="#memory" class="doc-link">Memory Management</a></li>
                     <li><a href="#error-handling" class="doc-link">Error Handling</a></li>
                     <li><a href="#generics" class="doc-link">Generics</a></li>
                     <li><a href="#comptime" class="doc-link">Compile-Time</a></li>
+                    <li><a href="#c-abi" class="doc-link">C ABI</a></li>
                 </ul>
             </div>
             
@@ -36,15 +27,14 @@
                     <li><a href="#io" class="doc-link">I/O Operations</a></li>
                     <li><a href="#collections" class="doc-link">Collections</a></li>
                     <li><a href="#system" class="doc-link">System Calls</a></li>
-                    <li><a href="#concurrency" class="doc-link">Concurrency</a></li>
                     <li><a href="#math" class="doc-link">Math Functions</a></li>
+                    <li><a href="#concurrency" class="doc-link">Concurrency</a></li>
                 </ul>
             </div>
             
             <div class="doc-section">
                 <h3>Integration</h3>
                 <ul>
-                    <li><a href="#c-abi" class="doc-link">C ABI</a></li>
                     <li><a href="#raylib" class="doc-link">Raylib</a></li>
                     <li><a href="#sokol" class="doc-link">Sokol</a></li>
                     <li><a href="#neovim" class="doc-link">Neovim</a></li>
@@ -54,18 +44,178 @@
         </div>
 
         <div class="doc-content">
-            <div class="doc-section-content" id="quickstart">
-                <h2>Quick Start</h2>
+            <div class="doc-section-content" id="types">
+                <h2>Type System</h2>
                 <div class="doc-card">
-                    <h3>Installation</h3>
-                    <p>Get Naya up and running in minutes:</p>
-                    <div class="code-block">
-                        <div class="copy-btn" data-code="git clone https://github.com/username/naya.git && cd naya && ./install.sh" onclick="copyToClipboard(this)">
-                            <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 4H7c-.6 0-1 .4-1 1v10c0 .6.4 1 1 1h8c.6 0 1-.4 1-1V6c0-.6-.4-1-1-1z"/>
-                            </svg>
-                            Copy
-                        </div>
+                    <h3>Basic Types</h3>
+                    <div class="type-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>C Equivalent</th>
+                                    <th>Size</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>int</code></td>
+                                    <td>64-bit signed integer</td>
+                                    <td><code>long</code></td>
+                                    <td>8 bytes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>uint</code></td>
+                                    <td>64-bit unsigned integer</td>
+                                    <td><code>unsigned long</code></td>
+                                    <td>8 bytes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>int8</code></td>
+                                    <td>8-bit signed integer</td>
+                                    <td><code>char</code></td>
+                                    <td>1 byte</td>
+                                </tr>
+                                <tr>
+                                    <td><code>uint8</code></td>
+                                    <td>8-bit unsigned integer</td>
+                                    <td><code>unsigned char</code></td>
+                                    <td>1 byte</td>
+                                </tr>
+                                <tr>
+                                    <td><code>int16</code></td>
+                                    <td>16-bit signed integer</td>
+                                    <td><code>short</code></td>
+                                    <td>2 bytes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>uint16</code></td>
+                                    <td>16-bit unsigned integer</td>
+                                    <td><code>unsigned short</code></td>
+                                    <td>2 bytes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>int32</code></td>
+                                    <td>32-bit signed integer</td>
+                                    <td><code>int</code></td>
+                                    <td>4 bytes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>uint32</code></td>
+                                    <td>32-bit unsigned integer</td>
+                                    <td><code>unsigned int</code></td>
+                                    <td>4 bytes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>int64</code></td>
+                                    <td>64-bit signed integer</td>
+                                    <td><code>long long</code></td>
+                                    <td>8 bytes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>uint64</code></td>
+                                    <td>64-bit unsigned integer</td>
+                                    <td><code>unsigned long long</code></td>
+                                    <td>8 bytes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>float32</code></td>
+                                    <td>32-bit floating point</td>
+                                    <td><code>float</code></td>
+                                    <td>4 bytes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>float64</code></td>
+                                    <td>64-bit floating point</td>
+                                    <td><code>double</code></td>
+                                    <td>8 bytes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>string</code></td>
+                                    <td>Null-terminated string</td>
+                                    <td><code>char*</code></td>
+                                    <td>Pointer</td>
+                                </tr>
+                                <tr>
+                                    <td><code>bool</code></td>
+                                    <td>Boolean value</td>
+                                    <td><code>int</code></td>
+                                    <td>1 byte</td>
+                                </tr>
+                                <tr>
+                                    <td><code>void</code></td>
+                                    <td>No return value</td>
+                                    <td><code>void</code></td>
+                                    <td>0 bytes</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="doc-card">
+                    <h3>Advanced Types</h3>
+                    <div class="type-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Usage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>ptr[T]</code></td>
+                                    <td>Safe pointer with bounds checking</td>
+                                    <td>Memory-safe pointer access</td>
+                                </tr>
+                                <tr>
+                                    <td><code>uptr[T]</code></td>
+                                    <td>Unsafe pointer (no bounds checking)</td>
+                                    <td>Performance-critical pointer access</td>
+                                </tr>
+                                <tr>
+                                    <td><code>cptr[T]</code></td>
+                                    <td>C-compatible pointer</td>
+                                    <td>Interoperability with C libraries</td>
+                                </tr>
+                                <tr>
+                                    <td><code>[N]T</code></td>
+                                    <td>Fixed-size array on stack</td>
+                                    <td>Stack-allocated arrays</td>
+                                </tr>
+                                <tr>
+                                    <td><code>[]T</code></td>
+                                    <td>Slice (pointer + length)</td>
+                                    <td>Dynamic array view</td>
+                                </tr>
+                                <tr>
+                                    <td><code>dyn[T]</code></td>
+                                    <td>Dynamic array (heap allocated)</td>
+                                    <td>Growable arrays</td>
+                                </tr>
+                                <tr>
+                                    <td><code>?T</code></td>
+                                    <td>Optional type (null or value)</td>
+                                    <td>Null-safe values</td>
+                                </tr>
+                                <tr>
+                                    <td><code>Result[T, E]</code></td>
+                                    <td>Result type for error handling</td>
+                                    <td>Error-safe operations</td>
+                                </tr>
+                                <tr>
+                                    <td><code>func(T) -> R</code></td>
+                                    <td>Function pointer type</td>
+                                    <td>Higher-order functions</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
                         <pre><code class="language-bash">git clone https://github.com/username/naya.git && cd naya && ./install.sh</code></pre>
                     </div>
                 </div>
