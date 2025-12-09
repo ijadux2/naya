@@ -4,6 +4,7 @@ Naya Language Compiler
 A simple compiler for building operating system coreutils
 """
 
+from os.path import samestat
 import sys
 import os
 from typing import List, Dict, Any, Optional
@@ -15,7 +16,6 @@ class Token:
         self.value = value
         self.line = line
         self.column = column
-
 
 class Lexer:
     def __init__(self, source: str):
