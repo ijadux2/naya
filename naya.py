@@ -9,7 +9,6 @@ import sys
 import os
 from typing import List, Dict, Any, Optional
 
-
 class Token:
     def __init__(self, type: str, value: str, line: int, column: int):
         self.type = type
